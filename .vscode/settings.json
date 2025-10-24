@@ -1,0 +1,17 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // biar ESLint format otomatis tiap save
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+
+  // ESLint aktif cuma di sini
+  "eslint.enable": true,
+  "eslint.run": "onSave",
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+
+  // Pastikan Prettier aktif juga
+  "prettier.enable": true
+}
