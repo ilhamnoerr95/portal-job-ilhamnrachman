@@ -5,6 +5,7 @@
   --foreground: #171717;
 }
 
+/* Gunakan @theme inline hanya untuk definisi custom var ke Tailwind */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -12,15 +13,16 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* Ini yang benar */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #171717;
+    --foreground: #ffffff;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--foreground);
+  color: var(--background);
+  font-family: var(--font-sans, Arial, Helvetica, sans-serif);
 }
