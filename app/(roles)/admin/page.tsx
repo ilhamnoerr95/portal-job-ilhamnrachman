@@ -9,6 +9,7 @@ import React from "react";
 import Modal from "@/components/organization/modal";
 import JobOpeningForm from "@/components/template/FormPostJob";
 import Toast from "@/components/atoms/Notif";
+import EmptyState from "@/components/atoms/emptyState";
 
 const Page = () => {
   const [open, setOpen] = React.useState(false);
@@ -28,48 +29,31 @@ const Page = () => {
         </div>
         {mockJobs.length === 0 ? (
           <div className="flex flex-col items-center justify-center gap-4 mt-20">
-            <div className="w-full max-w-[300px] sm:h-[300px] mx-auto aspect-square relative">
-              <Image
-                src="/emptyState.webp"
-                alt="empty-state"
-                fill
-                className="object-contain"
-                sizes="(max-width: 768px) 200px, 300px"
-              />
-            </div>
-            <div className="text-center position-relative">
-              <p className="font-bold text-2xl ">No job openings available</p>
-              <p className=" text-gray-500 my-4">
-                Create a job opening now and start the candidate process.
-              </p>
-              <Button
-                size="md"
-                className="cursor-pointer rounded-md bg-yellow-400  text-zinc-950 hover:bg-yellow-500"
-                onClick={() => setOpen(true)}
-              >
-                Create a new job
-              </Button>
-            </div>
+            <EmptyState
+              text="Create a job opening now and start the candidate process."
+              btn={true}
+              handleOpen={() => setOpen(true)}
+            />
           </div>
         ) : (
           mockJobs.map((job) => (
-            <Card key={job.id} className="relative mb-4" padding="p-6">
+            <Card key={job.id} className="relative mb-4 h-[156px]" padding="p-6">
               <div className="flex items-center gap-2 mb-3">
-                <Tag variant={jobStatusStyle[job.status].variant} className="rounded-xs">
+                <Tag variant={jobStatusStyle[job.status].variant} className="rounded-md">
                   {jobStatusStyle[job.status].label}
                 </Tag>
 
                 {job.startedAt && (
-                  <Tag variant="gray" className="rounded-md font-normal">
+                  <Tag variant="gray" className="rounded-sm font-normal text-sm">
                     started on {job.startedAt}
                   </Tag>
                 )}
               </div>
 
-              <h3 className="text-lg font-bold text-gray-700 mb-1">{job.title}</h3>
+              <h3 className="text-lg font-bold text-gray-700 mb-2">{job.title}</h3>
               <p className="text-sm text-gray-600 mb-6">{job.salary}</p>
 
-              <Button size="sm" className="absolute bottom-6 right-6 cursor-pointer">
+              <Button size="sm" className="absolute rounded-lg bottom-9 right-6 cursor-pointer">
                 Manage Job
               </Button>
             </Card>
