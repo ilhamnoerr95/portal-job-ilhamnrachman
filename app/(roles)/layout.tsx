@@ -12,7 +12,9 @@ const Layout = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  const rolesType = "admin";
+  type RolesType = "admin" | "users";
+
+  const rolesType: RolesType = "users";
 
   return (
     <>
@@ -21,6 +23,7 @@ const Layout = ({
         text={rolesType === "admin" ? "Job List" : ""}
         shadow={false}
       />
+
       <div className="px-6 py-6">{children}</div>
     </>
   );
