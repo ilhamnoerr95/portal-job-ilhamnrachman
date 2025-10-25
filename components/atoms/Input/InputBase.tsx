@@ -36,10 +36,10 @@ const InputBase: FC<InputBaseProps> = ({
         placeholder={placeholder}
         onChange={onChange}
         className={clsx(
-          "w-full border rounded-md px-4 py-3 focus:outline-none",
+          "w-full rounded-md px-4 py-3 focus:outline-none border-2 border-[#E0E0E0]",
           "focus:ring-1",
           disabled
-            ? "bg-gray-100 text-gray-400 cursor-not-allowed border-gray-200"
+            ? "bg-gray-400 text-gray-400 cursor-not-allowed border-gray-200"
             : error
               ? "border-red-500 focus:ring-red-500"
               : "border-gray-200 focus:ring-teal-600",

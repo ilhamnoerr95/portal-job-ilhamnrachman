@@ -1,7 +1,7 @@
 import React from "react";
 import clsx from "clsx";
 
-type ButtonVariant = "primary" | "outline" | "subtle";
+type ButtonVariant = "primary" | "outline" | "subtle" | "normal";
 type ButtonSize = "sm" | "md" | "lg";
 
 export const jobStatusStyle = {
@@ -29,6 +29,7 @@ export const Button: React.FC<ButtonProps> = ({
     primary: "bg-teal-600 text-white hover:bg-teal-800",
     outline: "border border-teal-700 text-teal-700 hover:bg-teal-50",
     subtle: "bg-gray-100 text-gray-600 hover:bg-gray-200",
+    normal: "bg-white text-gray-800",
   };
 
   const sizes = {
@@ -40,7 +41,8 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <button
       className={clsx(
-        "font-semibold transition whitespace-nowrap",
+        "transition whitespace-nowrap cursor-pointer",
+        variant === "normal" ? "font-normal" : "font-semibold ",
         variants[variant],
         sizes[size],
         fullWidth && "w-full",

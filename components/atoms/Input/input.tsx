@@ -13,7 +13,9 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> & {
 const Input: FC<InputProps> & {
   Password: typeof PasswordComponent;
   Search: typeof SearchComponent;
-} = (props) => <InputBase {...props} />;
+} = (props) => {
+  return <InputBase {...props} />;
+};
 
 // attach variants
 Input.Password = PasswordComponent;

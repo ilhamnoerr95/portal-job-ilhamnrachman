@@ -4,12 +4,15 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        cta: {
-          bg: "#000000B8", //
-        },
         primary: {
           DEFAULT: "#01959F",
           foreground: "#FFFFFF",
+        },
+        secondary: {
+          DEFAULT: "#FBC037",
+        },
+        cta: {
+          bg: "#000000B8",
         },
       },
       boxShadow: {
@@ -18,4 +21,5 @@ module.exports = {
       },
     },
   },
+  plugins: [],
 };
