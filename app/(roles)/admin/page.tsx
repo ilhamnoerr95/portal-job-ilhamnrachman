@@ -8,12 +8,18 @@ import { mockJobs } from "@/mock/jobdata";
 import React from "react";
 import Modal from "@/components/organization/modal";
 import JobOpeningForm from "@/components/template/FormPostJob";
-import Toast from "@/components/atoms/Notif";
+import Toast, { StatusNotif } from "@/components/atoms/Notif";
 import EmptyState from "@/components/atoms/emptyState";
 
 const Page = () => {
   const [open, setOpen] = React.useState(false);
-  const [show, setShow] = React.useState(true);
+  const [showNotif, setShowNotif] = React.useState<{
+    show: boolean;
+    status: StatusNotif;
+  }>({
+    show: false,
+    status: "success",
+  });
 
   return (
     <div className="flex gap-6">
@@ -112,18 +118,18 @@ const Page = () => {
           </>
         }
       >
-        <JobOpeningForm id="post-job" />
+        <JobOpeningForm id="post-job" setNotif={setShowNotif} closeModal={setOpen} />
       </Modal>
       {/* toast notif*/}
-      {show && (
+      {showNotif.show && (
         <Toast
-          show={show}
+          show={showNotif.show}
           message="Job vacancy successfully created"
-          type="success"
+          type={showNotif.status}
           position="bottom-left"
           transitionFrom="left"
           duration={4000}
-          onClose={() => setShow(false)}
+          onClose={() => setShowNotif((e) => ({ ...e, show: false }))}
         />
       )}
     </div>

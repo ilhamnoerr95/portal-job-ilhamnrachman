@@ -6,9 +6,10 @@ import { X, CheckCircle, Info, AlertCircle } from "lucide-react";
 import clsx from "clsx";
 import { Button } from "./button";
 
+export type StatusNotif = "error" | "success" | "info";
 type ToastProps = {
   message: string;
-  type?: "success" | "error" | "info";
+  type?: StatusNotif;
   position?: "top-right" | "top-left" | "bottom-right" | "bottom-left";
   transitionFrom?: "left" | "right" | "top" | "bottom";
   onClose?: () => void;

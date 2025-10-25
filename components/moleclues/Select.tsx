@@ -10,6 +10,7 @@ type SelectBaseProps = {
   value?: string;
   onChange?: (value: string) => void;
   className?: string;
+  error?: string;
 };
 
 const SelectBase: FC<SelectBaseProps> = ({
@@ -18,31 +19,34 @@ const SelectBase: FC<SelectBaseProps> = ({
   value,
   onChange,
   className,
+  error,
 }) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className={clsx("relative w-full text-sm", className)}>
-      {/* Input area */}
+    <div className="relative w-full text-sm">
       <Button
         variant="normal"
         type="button"
         onClick={() => setOpen(!open)}
         className={clsx(
-          "w-full border rounded-md px-4 py-3 flex justify-between items-center text-left",
-          "focus:ring-1 border-gray-200 bg-white"
+          "w-full border-2 rounded-md px-4 py-3 flex justify-between items-center text-left bg-white",
+          open && "ring-1",
+          error ? "border-red-500 text-red-600" : "border-gray-200 text-gray-800",
+          className
         )}
       >
-        <span className={clsx(value ? "text-gray-800" : "text-gray-400")}>
-          {value || placeholder}
-        </span>
+        <span className={clsx(!value && !error && "text-gray-400")}>{value || placeholder}</span>
         <ChevronDown
           size={18}
-          className={clsx("text-gray-500 transition-transform duration-200", open && "rotate-180")}
+          className={clsx(
+            error ? "text-red-500" : "text-gray-500",
+            "transition-transform duration-200",
+            open && "rotate-180"
+          )}
         />
       </Button>
 
-      {/* Dropdown list */}
       {open && (
         <div className="absolute mt-2 w-full bg-white border border-gray-200 rounded-md shadow-md z-10 max-h-56 overflow-y-auto">
           {options.map((opt) => (
@@ -54,7 +58,7 @@ const SelectBase: FC<SelectBaseProps> = ({
               }}
               className={clsx(
                 "px-4 py-2 cursor-pointer hover:bg-teal-50 font-semibold",
-                value === opt && "bg-teal-100 text-teal-700 font-medium"
+                value === opt && "bg-teal-100 text-teal-700"
               )}
             >
               {opt}
@@ -62,6 +66,8 @@ const SelectBase: FC<SelectBaseProps> = ({
           ))}
         </div>
       )}
+
+      {error && <p className="text-xs text-red-600 mt-1">{error}</p>}
     </div>
   );
 };

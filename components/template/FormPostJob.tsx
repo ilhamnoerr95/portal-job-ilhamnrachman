@@ -5,6 +5,7 @@ import { useActionState } from "react";
 import { Input } from "../atoms/Input/Index";
 import SelectBase from "../moleclues/Select";
 import ProfileSettingRow, { Option } from "../moleclues/Radio";
+import { StatusNotif } from "../atoms/Notif";
 
 type JobFormState = {
   success?: boolean;
@@ -34,7 +35,7 @@ async function submitJobForm(prevState: JobFormState, formData: FormData): Promi
   if (!jobName) errors.jobName = "Job name is required";
   if (!description) errors.description = "Description is required";
   if (!candidates) errors.candidates = "Candidate count is required";
-  if (!jobType) errors.candidates = "Job Type is required";
+  if (!jobType) errors.jobType = "Job Type is required";
 
   if (Object.keys(errors).length > 0) {
     return { success: false, errors, message: "Please fix the errors" };
@@ -45,8 +46,29 @@ async function submitJobForm(prevState: JobFormState, formData: FormData): Promi
   return { success: true, message: "Job successfully published!" };
 }
 
-export default function JobOpeningForm({ id = "jobOpeningForm" }: { id?: string }) {
-  const [state, formAction, isPending] = useActionState(submitJobForm, initialState);
+export default function JobOpeningForm({
+  id = "jobOpeningForm",
+  setNotif,
+  closeModal,
+}: {
+  id?: string;
+  setNotif: React.Dispatch<React.SetStateAction<{ show: boolean; status: StatusNotif }>>;
+  closeModal: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
+  const [state, formAction, isPending] = useActionState(async (prev: any, formData: any) => {
+    const result = await submitJobForm(prev, formData);
+    console.log(result);
+    if (!result.errors) {
+      if (result.success) {
+        setNotif({ show: true, status: "success" });
+        closeModal(false);
+      } else {
+        setNotif({ show: true, status: "error" });
+      }
+    }
+
+    return result;
+  }, initialState);
 
   // 🧩 Controlled states supaya value nggak hilang
   const [jobName, setJobName] = useState("");
@@ -104,8 +126,9 @@ export default function JobOpeningForm({ id = "jobOpeningForm" }: { id?: string 
           value={jobType}
           onChange={(val) => setJobType(val)}
           className="border-[#E0E0E0]"
+          error={state.errors?.jobType}
         />
-        <input type="hidden" name="jobType" value={jobType} />
+        <input type="hidden" name="jobType" value={jobType} required />
       </div>
 
       {/* Job Description */}
