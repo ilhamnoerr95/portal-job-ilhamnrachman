@@ -8,9 +8,11 @@ import { mockJobs } from "@/mock/jobdata";
 import React from "react";
 import Modal from "@/components/organization/modal";
 import JobOpeningForm from "@/components/template/FormPostJob";
+import Toast from "@/components/atoms/Notif";
 
 const Page = () => {
   const [open, setOpen] = React.useState(false);
+  const [show, setShow] = React.useState(true);
 
   return (
     <div className="flex gap-6">
@@ -128,6 +130,18 @@ const Page = () => {
       >
         <JobOpeningForm id="post-job" />
       </Modal>
+      {/* toast notif*/}
+      {show && (
+        <Toast
+          show={show}
+          message="Job vacancy successfully created"
+          type="success"
+          position="bottom-left"
+          transitionFrom="left"
+          duration={4000}
+          onClose={() => setShow(false)}
+        />
+      )}
     </div>
   );
 };
