@@ -1,7 +1,7 @@
 import React from "react";
 import clsx from "clsx";
 
-type ButtonVariant = "primary" | "outline" | "subtle" | "normal";
+type ButtonVariant = "primary" | "outline" | "subtle" | "normal" | "secondary";
 type ButtonSize = "sm" | "md" | "lg";
 
 export const jobStatusStyle = {
@@ -30,6 +30,7 @@ export const Button: React.FC<ButtonProps> = ({
     outline: "border border-teal-700 text-teal-700 hover:bg-teal-50",
     subtle: "bg-gray-100 text-gray-600 hover:bg-gray-200",
     normal: "bg-white text-gray-800",
+    secondary: "bg-[#FBC037] hover:bg-[#E6A100] text-black",
   };
 
   const sizes = {
