@@ -110,9 +110,16 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
           <div className="absolute top-12 left-0 w-[346px] bg-white border border-[#E0E0E0] rounded-lg shadow-lg z-20">
             {/* Search bar */}
             <div className="relative p-2 border-b border-gray-100">
-              <Search
+              {/* <Search
                 size={16}
-                className="absolute left-6 top-1/2 -translate-y-1/2 text-[#F4A100]"
+                className="absolute left-6 top-1/2 -translate-y-1/2 text-[#111827]"
+              /> */}
+              <Image
+                src="/search.png"
+                height={16}
+                width={16}
+                alt="search"
+                className="absolute left-6 top-1/2 -translate-y-1/2 text-[#111827]"
               />
               <input
                 type="text"
@@ -124,7 +131,7 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
               {searchTerm && (
                 <X
                   size={14}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-400 hover:text-gray-600"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-gray-400 hover:text-gray-600"
                   onClick={() => setSearchTerm("")}
                 />
               )}
@@ -155,7 +162,9 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
                   </li>
                 ))
               ) : (
-                <li className="py-4 text-center text-gray-500 text-sm">No countries found</li>
+                <li className="py-4 text-center text-gray-500 text-sm">
+                  Keyword "<span className="font-bold">{searchTerm}</span>" tidak ditemukan
+                </li>
               )}
             </ul>
           </div>

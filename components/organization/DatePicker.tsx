@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { Calendar, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import clsx from "clsx";
 
 interface DatePickerProps {
   label?: string;
@@ -105,7 +106,13 @@ const DatePickerWithValidation: React.FC<DatePickerProps> = ({
           placeholder={placeholder}
           className="w-full  pl-2 text-sm bg-transparent outline-none placeholder-gray-400 cursor-pointer"
         />
-        <ChevronDown size={16} />
+        <ChevronDown
+          size={18}
+          className={clsx(
+            "text-gray-500 transition-transform duration-200",
+            isOpen && "rotate-180"
+          )}
+        />
       </div>
 
       {/* Dropdown Calendar */}

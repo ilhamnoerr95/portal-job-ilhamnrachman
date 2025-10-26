@@ -6,22 +6,34 @@ type IProps = {
   text?: string;
   btn?: boolean;
   handleOpen?: () => void;
+  image: string;
+  height?: string;
+  width?: string;
+  title?: string;
 };
-const EmptyState: React.FC<IProps> = ({ text, btn = false, handleOpen }) => {
+const SpesialState: React.FC<IProps> = ({
+  image,
+  text,
+  btn = false,
+  handleOpen,
+  height = "200px",
+  width = "300px",
+  title = "No job openings available",
+}) => {
   return (
     <>
       <div className="w-full max-w-[300px] aspect-square relative">
         <Image
-          src="/emptyState.webp"
-          alt="empty-state"
+          src={image}
+          alt="special-state"
           fill
           className="object-contain"
-          sizes="(max-width: 768px) 200px, 300px"
+          sizes={`(max-width: 768px) ${width}, ${height}`}
         />
       </div>
       <div className={clsx(btn && "text-center relative")}>
-        <p className="font-bold text-2xl">No job openings available</p>
-        <p className="text-gray-500 mt-2">{text}</p>
+        <p className="font-bold text-2xl">{title}</p>
+        <p className="text-gray-500 mt-2 max-w-[606px]">{text}</p>
         {btn && (
           <Button
             size="md"
@@ -36,4 +48,4 @@ const EmptyState: React.FC<IProps> = ({ text, btn = false, handleOpen }) => {
   );
 };
 
-export default EmptyState;
+export default SpesialState;

@@ -9,7 +9,7 @@ import React from "react";
 import Modal from "@/components/organization/modal";
 import JobOpeningForm from "@/components/template/FormPostJob";
 import Toast, { StatusNotif } from "@/components/atoms/Notif";
-import EmptyState from "@/components/atoms/emptyState";
+import EmptyState from "@/components/atoms/SpesialState";
 import { JobData } from "@/interfaces/job";
 
 const Page = () => {
@@ -37,6 +37,7 @@ const Page = () => {
         {mockJobs?.data?.length === 0 ? (
           <div className="flex flex-col items-center justify-center gap-4 mt-20">
             <EmptyState
+              image={"/emptyState.webp"}
               text="Create a job opening now and start the candidate process."
               btn={true}
               handleOpen={() => setOpen(true)}

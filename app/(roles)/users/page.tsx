@@ -6,7 +6,7 @@ import { Card } from "@/components/atoms/card";
 import clsx from "clsx";
 import Image from "next/image";
 import { MapPin } from "lucide-react";
-import EmptyState from "@/components/atoms/emptyState";
+import EmptyState from "@/components/atoms/SpesialState";
 import { useRouter } from "next/navigation";
 
 export default function JobsPage() {
@@ -17,7 +17,10 @@ export default function JobsPage() {
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 px-4 md:px-10 lg:px-14 py-6 md:py-8 h-[calc(100vh-100px)] overflow-hidden">
       {jobs.length === 0 ? (
         <div className="col-span-full flex flex-col items-center justify-center text-center gap-4">
-          <EmptyState text={"Create a job opening now and start the candidate process."} />
+          <EmptyState
+            image="/emptyState.webp"
+            text={"Create a job opening now and start the candidate process."}
+          />
         </div>
       ) : (
         <>
@@ -109,7 +112,7 @@ export default function JobsPage() {
                   type="button"
                   className="cursor-pointer bg-[#FBC037] font-semibold text-black px-3 md:px-5 py-2 
                   text-xs md:text-sm rounded-md hover:bg-[#E0A92F] transition shrink-0"
-                  onClick={() => router.push(`/users/${selectedJob.id}`)}
+                  onClick={() => router.push(`/users/resume/${selectedJob.id}`)}
                 >
                   Apply
                 </button>

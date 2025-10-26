@@ -24,7 +24,7 @@ const Layout = ({
         shadow={false}
       />
 
-      <div className="px-6 py-6">{children}</div>
+      <div className="px-6 py-6 min-h-screen">{children}</div>
     </>
   );
 };
