@@ -1,39 +1,210 @@
-export type JobStatus = "active" | "draft" | "inactive";
+import { JobResponse } from "@/interfaces/job";
 
-export interface JobItem {
-  id: string;
-  title: string;
-  salary: string;
-  status: JobStatus;
-  startedAt?: string; // hanya untuk active / inactive
-}
-
-export const mockJobs: JobItem[] = [
-  // {
-  //   id: "1",
-  //   title: "Front End Developer",
-  //   salary: "Rp7.000.000 - Rp8.000.000",
-  //   status: "active",
-  //   startedAt: "1 Oct 2025",
-  // },
-  // {
-  //   id: "2",
-  //   title: "Backend Wizard",
-  //   salary: "Rp9.000.000 • Rp12.000.000",
-  //   status: "draft",
-  // },
-  // {
-  //   id: "3",
-  //   title: "UI/UX Sorcerer",
-  //   salary: "Rp6.500.000 • Rp9.500.000",
-  //   status: "inactive",
-  //   startedAt: "21 Sep 2025",
-  // },
-  // {
-  //   id: "4",
-  //   title: "Fullstack Ninja",
-  //   salary: "Rp10.000.000 • Rp14.000.000",
-  //   status: "active",
-  //   startedAt: "10 Oct 2025",
-  // },
-];
+export const mockJobs: JobResponse = {
+  data: [
+    {
+      id: "job_20251001_0001",
+      slug: "frontend-developer",
+      title: "Frontend Developer",
+      status: "active",
+      salary_range: {
+        min: 7000000,
+        max: 8000000,
+        currency: "IDR",
+        display_text: "Rp7.000.000 - Rp8.000.000",
+      },
+      list_card: {
+        badge: "Active",
+        started_on_text: "Started on 1 Oct 2025",
+        cta: "Manage Job",
+      },
+    },
+    {
+      id: "job_20251001_0002",
+      slug: "backend-developer",
+      title: "Backend Developer",
+      status: "draft",
+      salary_range: {
+        min: 8500000,
+        max: 10000000,
+        currency: "IDR",
+        display_text: "Rp8.500.000 - Rp10.000.000",
+      },
+      list_card: {
+        badge: "Active",
+        started_on_text: "Started on 3 Oct 2025",
+        cta: "Manage Job",
+      },
+    },
+    {
+      id: "job_20251001_0003",
+      slug: "ui-ux-designer",
+      title: "UI/UX Designer",
+      status: "inactive",
+      salary_range: {
+        min: 6000000,
+        max: 7500000,
+        currency: "IDR",
+        display_text: "Rp6.000.000 - Rp7.500.000",
+      },
+      list_card: {
+        badge: "inactive",
+        started_on_text: "Started on 5 Oct 2025",
+        cta: "Manage Job",
+      },
+    },
+    {
+      id: "job_20251001_0004",
+      slug: "mobile-developer",
+      title: "Mobile Developer",
+      status: "active",
+      salary_range: {
+        min: 9000000,
+        max: 12000000,
+        currency: "IDR",
+        display_text: "Rp9.000.000 - Rp12.000.000",
+      },
+      list_card: {
+        badge: "Active",
+        started_on_text: "Started on 8 Oct 2025",
+        cta: "Manage Job",
+      },
+    },
+    {
+      id: "job_20251001_0005",
+      slug: "product-manager",
+      title: "Product Manager",
+      status: "active",
+      salary_range: {
+        min: 12000000,
+        max: 15000000,
+        currency: "IDR",
+        display_text: "Rp12.000.000 - Rp15.000.000",
+      },
+      list_card: {
+        badge: "Active",
+        started_on_text: "Started on 10 Oct 2025",
+        cta: "Manage Job",
+      },
+    },
+    {
+      id: "job_20251001_0006",
+      slug: "data-analyst",
+      title: "Data Analyst",
+      status: "active",
+      salary_range: {
+        min: 8000000,
+        max: 9500000,
+        currency: "IDR",
+        display_text: "Rp8.000.000 - Rp9.500.000",
+      },
+      list_card: {
+        badge: "Active",
+        started_on_text: "Started on 12 Oct 2025",
+        cta: "Manage Job",
+      },
+    },
+    {
+      id: "job_20251001_0007",
+      slug: "devops-engineer",
+      title: "DevOps Engineer",
+      status: "active",
+      salary_range: {
+        min: 10000000,
+        max: 13000000,
+        currency: "IDR",
+        display_text: "Rp10.000.000 - Rp13.000.000",
+      },
+      list_card: {
+        badge: "Active",
+        started_on_text: "Started on 14 Oct 2025",
+        cta: "Manage Job",
+      },
+    },
+    {
+      id: "job_20251001_0008",
+      slug: "qa-engineer",
+      title: "QA Engineer",
+      status: "active",
+      salary_range: {
+        min: 6500000,
+        max: 8000000,
+        currency: "IDR",
+        display_text: "Rp6.500.000 - Rp8.000.000",
+      },
+      list_card: {
+        badge: "Active",
+        started_on_text: "Started on 16 Oct 2025",
+        cta: "Manage Job",
+      },
+    },
+    {
+      id: "job_20251001_0009",
+      slug: "system-analyst",
+      title: "System Analyst",
+      status: "active",
+      salary_range: {
+        min: 9000000,
+        max: 11000000,
+        currency: "IDR",
+        display_text: "Rp9.000.000 - Rp11.000.000",
+      },
+      list_card: {
+        badge: "Active",
+        started_on_text: "Started on 18 Oct 2025",
+        cta: "Manage Job",
+      },
+    },
+    {
+      id: "job_20251001_0010",
+      slug: "project-coordinator",
+      title: "Project Coordinator",
+      status: "active",
+      salary_range: {
+        min: 7000000,
+        max: 9000000,
+        currency: "IDR",
+        display_text: "Rp7.000.000 - Rp9.000.000",
+      },
+      list_card: {
+        badge: "Active",
+        started_on_text: "Started on 19 Oct 2025",
+        cta: "Manage Job",
+      },
+    },
+    {
+      id: "job_20251001_0011",
+      slug: "graphic-designer",
+      title: "Graphic Designer",
+      status: "active",
+      salary_range: {
+        min: 5000000,
+        max: 7000000,
+        currency: "IDR",
+        display_text: "Rp5.000.000 - Rp7.000.000",
+      },
+      list_card: {
+        badge: "Active",
+        started_on_text: "Started on 20 Oct 2025",
+        cta: "Manage Job",
+      },
+    },
+    {
+      id: "job_20251001_0012",
+      slug: "content-writer",
+      title: "Content Writer",
+      status: "active",
+      salary_range: {
+        min: 4500000,
+        max: 6000000,
+        currency: "IDR",
+        display_text: "Rp4.500.000 - Rp6.000.000",
+      },
+      list_card: {
+        badge: "Active",
+        started_on_text: "Started on 22 Oct 2025",
+        cta: "Manage Job",
+      },
+    },
+  ],
+};

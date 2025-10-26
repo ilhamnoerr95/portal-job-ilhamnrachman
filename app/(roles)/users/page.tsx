@@ -7,8 +7,10 @@ import clsx from "clsx";
 import Image from "next/image";
 import { MapPin } from "lucide-react";
 import EmptyState from "@/components/atoms/emptyState";
+import { useRouter } from "next/navigation";
 
 export default function JobsPage() {
+  const router = useRouter();
   const [selectedJob, setSelectedJob] = useState(jobs[0]);
 
   return (
@@ -105,7 +107,9 @@ export default function JobsPage() {
                 {/* Apply Button */}
                 <button
                   type="button"
-                  className="bg-[#FBC037] font-semibold text-black px-3 md:px-5 py-2 text-xs md:text-sm rounded-md hover:bg-[#E0A92F] transition flex-shrink-0"
+                  className="cursor-pointer bg-[#FBC037] font-semibold text-black px-3 md:px-5 py-2 
+                  text-xs md:text-sm rounded-md hover:bg-[#E0A92F] transition shrink-0"
+                  onClick={() => router.push(`/users/${selectedJob.id}`)}
                 >
                   Apply
                 </button>

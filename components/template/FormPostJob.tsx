@@ -6,12 +6,7 @@ import { Input } from "../atoms/Input/Index";
 import SelectBase from "../moleclues/Select";
 import ProfileSettingRow, { Option } from "../moleclues/Radio";
 import { StatusNotif } from "../atoms/Notif";
-
-type JobFormState = {
-  success?: boolean;
-  message?: string;
-  errors?: Record<string, string>;
-};
+import { JobFormState } from "@/interfaces/stateForm.type";
 
 const initialState: JobFormState = {};
 
@@ -30,6 +25,18 @@ async function submitJobForm(prevState: JobFormState, formData: FormData): Promi
     Object.entries(data).map(([key, value]) => [key, value.trim()])
   ) as Record<string, string>;
 
+  //  Proses data berdasarkan aturan
+  const processedData: Record<string, any> = {};
+
+  for (const [key, value] of Object.entries(trimmedData)) {
+    if (value === "Off")
+      continue; //  skip field Off
+    else if (value === "Mandatory") processedData[key] = true;
+    else if (value === "Optional")
+      processedData[key] = false; //  Optional = false
+    else processedData[key] = value; // 🔤 lainnya tetap
+  }
+
   // Validasi sederhana
   const errors: Record<string, string> = {};
   if (!jobName) errors.jobName = "Job name is required";
@@ -41,7 +48,7 @@ async function submitJobForm(prevState: JobFormState, formData: FormData): Promi
     return { success: false, errors, message: "Please fix the errors" };
   }
 
-  console.log("📝 Submitted:", trimmedData);
+  console.log("📝 Submitted:", processedData);
 
   return { success: true, message: "Job successfully published!" };
 }
@@ -57,7 +64,7 @@ export default function JobOpeningForm({
 }) {
   const [state, formAction, isPending] = useActionState(async (prev: any, formData: any) => {
     const result = await submitJobForm(prev, formData);
-    console.log(result);
+
     if (!result.errors) {
       if (result.success) {
         setNotif({ show: true, status: "success" });

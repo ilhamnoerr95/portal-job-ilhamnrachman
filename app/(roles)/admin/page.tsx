@@ -10,6 +10,7 @@ import Modal from "@/components/organization/modal";
 import JobOpeningForm from "@/components/template/FormPostJob";
 import Toast, { StatusNotif } from "@/components/atoms/Notif";
 import EmptyState from "@/components/atoms/emptyState";
+import { JobData } from "@/interfaces/job";
 
 const Page = () => {
   const [open, setOpen] = React.useState(false);
@@ -33,7 +34,7 @@ const Page = () => {
             type="text"
           />
         </div>
-        {mockJobs.length === 0 ? (
+        {mockJobs?.data?.length === 0 ? (
           <div className="flex flex-col items-center justify-center gap-4 mt-20">
             <EmptyState
               text="Create a job opening now and start the candidate process."
@@ -42,22 +43,22 @@ const Page = () => {
             />
           </div>
         ) : (
-          mockJobs.map((job) => (
+          mockJobs?.data.map((job: JobData) => (
             <Card key={job.id} className="relative mb-4 h-[156px]" padding="p-6">
               <div className="flex items-center gap-2 mb-3">
                 <Tag variant={jobStatusStyle[job.status].variant} className="rounded-md">
                   {jobStatusStyle[job.status].label}
                 </Tag>
 
-                {job.startedAt && (
+                {job.list_card.started_on_text && (
                   <Tag variant="gray" className="rounded-sm font-normal text-sm">
-                    started on {job.startedAt}
+                    started on {job.list_card.started_on_text}
                   </Tag>
                 )}
               </div>
 
               <h3 className="text-lg font-bold text-gray-700 mb-2">{job.title}</h3>
-              <p className="text-sm text-gray-600 mb-6">{job.salary}</p>
+              <p className="text-sm text-gray-600 mb-6">{job.salary_range.display_text}</p>
 
               <Button size="sm" className="absolute rounded-lg bottom-9 right-6 cursor-pointer">
                 Manage Job
