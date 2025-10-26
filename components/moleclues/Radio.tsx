@@ -24,6 +24,7 @@ const ProfileSettingRow = ({
       <div className="flex gap-2">
         {options.map((option) => {
           const isDisabled = disabledOptions.includes(option);
+
           return (
             <label key={option} className="cursor-pointer">
               <Input

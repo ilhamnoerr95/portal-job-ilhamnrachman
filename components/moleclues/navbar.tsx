@@ -1,6 +1,8 @@
+"use client";
+import React from "react";
 import Image from "next/image";
 import clsx from "clsx";
-import React from "react";
+import { useSelectedLayoutSegments } from "next/navigation";
 type roles = "admin" | "users";
 
 type NavbarProps = {
@@ -11,6 +13,12 @@ type NavbarProps = {
 };
 
 const Navbar: React.FC<NavbarProps> = ({ text, shadow = false, image, roles }) => {
+  const segments = useSelectedLayoutSegments(); // array of segments for current route
+  // contoh segments: ["users", "123"] untuk /users/123
+  const isUserDetail = segments[0] === "users" && segments.length === 2 && !!segments[1];
+
+  if (isUserDetail) return null;
+
   return (
     <nav
       className={clsx(

@@ -16,6 +16,7 @@ interface PhoneInputProps {
   onChange?: (phone: string) => void;
   defaultCountryCode?: string;
   errorMessage?: string;
+  name?: string;
 }
 
 const PhoneInput: React.FC<PhoneInputProps> = ({
@@ -23,6 +24,7 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
   onChange,
   defaultCountryCode = "ID",
   errorMessage,
+  name,
 }) => {
   const [selectedCountry, setSelectedCountry] = useState<Country>(
     countries.find((c) => c.code === defaultCountryCode) || countries[0]
@@ -95,6 +97,7 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
 
         {/* Phone Number Input */}
         <input
+          name={name}
           type="tel"
           value={phoneNumber}
           onChange={(e) => handleChange(e.target.value)}

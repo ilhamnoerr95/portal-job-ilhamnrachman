@@ -8,6 +8,7 @@ type InputBaseProps = React.InputHTMLAttributes<HTMLInputElement> & {
   suffix?: ReactNode;
   placeholder?: string;
   className?: string;
+  prefixClassName?: string;
   error?: string;
   disabled?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -22,12 +23,20 @@ const InputBase: FC<InputBaseProps> = ({
   error,
   disabled = false,
   onChange,
+  prefixClassName,
   ...props
 }) => {
   return (
     <div className="relative w-full">
       {prefix && (
-        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">{prefix}</div>
+        <div
+          className={clsx(
+            "absolute left-3 top-1/2 -translate-y-1/2 text-gray-500",
+            prefixClassName
+          )}
+        >
+          {prefix}
+        </div>
       )}
 
       <input
@@ -54,7 +63,7 @@ const InputBase: FC<InputBaseProps> = ({
         <div className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">{suffix}</div>
       )}
 
-      {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
+      {error && <p className="text-xs text-red-500 mt-2">{error}</p>}
     </div>
   );
 };

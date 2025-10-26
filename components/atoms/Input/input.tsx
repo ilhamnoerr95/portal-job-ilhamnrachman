@@ -7,6 +7,7 @@ import SearchComponent from "./Search";
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   prefix?: React.ReactNode;
   suffix?: React.ReactNode;
+  prefixClassName?: string;
   error?: string;
 };
 
