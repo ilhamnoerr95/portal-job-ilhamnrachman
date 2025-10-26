@@ -15,7 +15,7 @@ type NavbarProps = {
 const Navbar: React.FC<NavbarProps> = ({ text, shadow = false, image, roles }) => {
   const segments = useSelectedLayoutSegments(); // array of segments for current route
   // contoh segments: ["users", "123"] untuk /users/123
-  const isUserDetail = segments[0] === "users" && segments.length === 2 && !!segments[1];
+  const isUserDetail = segments[0] === "users" && segments.length >= 2 && !!segments[1];
 
   if (isUserDetail) return null;
 

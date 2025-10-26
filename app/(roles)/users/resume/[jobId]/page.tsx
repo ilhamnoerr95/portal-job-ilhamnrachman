@@ -1,9 +1,9 @@
 "use client";
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import FormFieldTemplate from "@/components/template/FormResume";
 import { Button } from "@/components/atoms/button";
 import { JobFormState } from "@/interfaces/stateForm.type";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Info } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const initialState: JobFormState = {};
@@ -19,6 +19,8 @@ type ApplicationForm = {
   fields: Field[];
 };
 
+// ini contoh mock datanya
+// kalo mau apakah validatau tidak, tinggal mainkan rquirednya saja
 const formDataMock: ApplicationForm = {
   id: 1,
   title: "Apply Front End at Rakamin",
@@ -76,13 +78,20 @@ export default function DynamicApplicationForm() {
     phone_number: "",
     domicile: "",
     date_of_birth: "",
+    gender: "",
   });
-  console.log(form);
+
   const [state, formAction, isPending] = useActionState(
     (prev: JobFormState, formData: FormData) => submitFormResume(prev, formData, formDataMock),
     initialState
   );
-  console.log(state);
+
+  useEffect(() => {
+    if (state?.success) {
+      // redirect ke halaman lain
+      router.push("/users/resume-sent"); // ubah sesuai kebutuhanmu
+    }
+  }, [state, router]);
 
   const handleChange = (key: string, value: string) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -95,27 +104,29 @@ export default function DynamicApplicationForm() {
         id="post-resume"
         noValidate
         className="relative flex flex-col w-full max-w-[700px] bg-white border border-[#E0E0E0] rounded-xl shadow-sm overflow-hidden"
-        style={{ maxHeight: "800px" }}
+        style={{ maxHeight: "700px" }}
       >
-        {/* Header */}
-        <div className="px-14 pt-6 pb-4 flex justify-between items-center mb-4">
-          <div className="flex gap-4">
-            <Button
-              size="sm"
-              type="button"
-              variant="normal"
-              className="w-auto h-auto rounded-md transition border border-[#E0E0E0]"
-              onClick={() => router.push("/users")}
-            >
-              <ArrowLeft size={20} className="text-[#616161]" />
-            </Button>
-            <h2 className="text-[18px] font-semibold text-gray-800">{formDataMock.title}</h2>
-          </div>
-          <p className="text-sm text-[#404040]">This field required to fill</p>
-        </div>
-
         {/* Scrollable form body */}
         <div className="flex-1 overflow-y-auto px-14 py-4 space-y-5">
+          {/* Header */}
+          <div className="pt-6 pb-4 flex justify-between items-center mb-4">
+            <div className="flex gap-4">
+              <Button
+                size="sm"
+                type="button"
+                variant="normal"
+                className="w-auto h-auto rounded-md transition border border-[#E0E0E0]"
+                onClick={() => router.push("/users")}
+              >
+                <ArrowLeft size={20} className="text-[#616161]" />
+              </Button>
+              <h2 className="text-[18px] font-semibold text-gray-800">{formDataMock.title}</h2>
+            </div>
+            <p className="text-sm text-[#404040] flex gap-2">
+              <Info size={18} className="text-gray-500" />
+              This field required to fill
+            </p>
+          </div>
           {formDataMock.fields.map((field) => (
             <FormFieldTemplate
               key={field.key}
