@@ -25,8 +25,9 @@ export const authOptions = {
         // default: role user
         return {
           id: "2",
-          name: credentials?.email || "Unknown User",
-          email: "users@mock.com",
+          name: "User Mocking",
+          email: credentials?.email,
+          image: "/boy.webp",
           roles: ["user"],
         };
       },

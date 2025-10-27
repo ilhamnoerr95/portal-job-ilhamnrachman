@@ -1,8 +1,9 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, CSSProperties } from "react";
 import { X } from "lucide-react";
 import { Button } from "../atoms/button";
+import clsx from "clsx";
 
 type ModalProps = {
   open: boolean;
@@ -13,6 +14,8 @@ type ModalProps = {
   onClose?: () => void;
   footer?: ReactNode;
   width?: string;
+  className?: string;
+  style?: CSSProperties;
 };
 
 const Modal = ({
@@ -24,16 +27,22 @@ const Modal = ({
   onClose,
   footer,
   width = "max-w-4xl",
+  className,
+  style,
 }: ModalProps) => {
   if (!open) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-3 sm:px-6">
-      {/* Modal Container */}
       <div
-        className={`relative bg-white rounded-2xl shadow-2xl w-full ${width} max-h-[90vh] flex flex-col overflow-hidden`}
+        className={clsx(
+          "relative bg-white rounded-2xl shadow-2xl w-full",
+          width,
+          "max-h-[90vh] flex flex-col overflow-hidden",
+          className
+        )}
+        style={style}
       >
-        {/* Header */}
         {showHeader && (
           <div className="flex justify-between items-center border-b border-[#E0E0E0] px-4 sm:px-6 py-3 sm:py-4">
             <h2 className="text-base sm:text-lg font-semibold text-gray-800 break-words">
@@ -52,14 +61,12 @@ const Modal = ({
           </div>
         )}
 
-        {/* Body */}
         <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 space-y-4 text-gray-700 text-sm sm:text-base">
           {children}
         </div>
 
-        {/* Footer */}
         {showFooter && (
-          <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3 border-t border-[#E0E0E0] px-4 sm:px-6 py-3 sm:py-4 ">
+          <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3 border-t border-[#E0E0E0] px-4 sm:px-6 py-3 sm:py-4">
             {footer ? (
               footer
             ) : (

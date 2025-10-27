@@ -8,7 +8,7 @@ import Image from "next/image";
 import { signIn } from "next-auth/react";
 
 import { JobFormState } from "@/interfaces/stateForm.type";
-import { submitFormLogin } from "@/actions/formLogin";
+import { submitFormLogin } from "@/actions/actionLogin";
 const initialState: JobFormState = {};
 
 const FormLogin = () => {
@@ -63,10 +63,11 @@ const FormLogin = () => {
       )}
 
       <Button
+        disabled={isPending}
         form="post-login"
         variant="secondary"
         type="submit"
-        className="w-full  font-medium py-2.5 rounded-md transition"
+        className="w-full cursor-pointer font-medium py-2.5 rounded-md transition"
       >
         {mode === "link" ? "Kirim link" : "Masuk"}
       </Button>
