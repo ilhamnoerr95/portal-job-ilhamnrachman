@@ -25,9 +25,9 @@ const formDataMock: ApplicationForm = {
   id: 1,
   title: "Apply Front End at Rakamin",
   fields: [
-    // { key: "photo_profile", validation: { required: true } },
+    { key: "photo_profile", validation: { required: false } },
     { key: "full_name", validation: { required: true } },
-    { key: "date_of_birth", validation: { required: false } },
+    { key: "date_of_birth", validation: { required: true } },
     { key: "gender", validation: { required: true } },
     { key: "domicile", validation: { required: true } },
     { key: "phone_number", validation: { required: true } },
@@ -127,6 +127,7 @@ export default function DynamicApplicationForm() {
               This field required to fill
             </p>
           </div>
+          <span className="text-red-500 text-xs font-bold">* Required</span>
           {formDataMock.fields.map((field) => (
             <FormFieldTemplate
               key={field.key}
@@ -145,7 +146,7 @@ export default function DynamicApplicationForm() {
           <Button
             form="post-resume"
             type="submit"
-            className="w-full bg-[#01777F] text-white py-3 rounded-md hover:bg-[#01666E] transition"
+            className="w-full bg-[#01777F] text-white py-3 rounded-md hover:bg-[#01666E] transition cursor-pointer"
           >
             Submit
           </Button>

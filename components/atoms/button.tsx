@@ -42,7 +42,7 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <button
       className={clsx(
-        "transition whitespace-nowrap cursor-pointer",
+        "transition whitespace-nowrap",
         variant === "normal" ? "font-normal" : "font-semibold ",
         variants[variant],
         sizes[size],

@@ -93,7 +93,7 @@ const Page = () => {
           <div className="relative z-10 flex flex-col h-full text-center gap-2">
             <h3 className="text-sm font-semibold text-gray-50 mb-1">Recruit the best candidates</h3>
 
-            <p className="text-xs text-gray-100 mb-3 flex-grow">
+            <p className="text-xs text-gray-100 mb-3 grow">
               Create jobs, invite, and hire with ease
             </p>
 

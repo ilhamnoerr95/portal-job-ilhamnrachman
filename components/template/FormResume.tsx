@@ -5,6 +5,12 @@ import { JobFormState } from "@/interfaces/stateForm.type";
 import SelectBase from "../moleclues/Select";
 import Dropdown from "../moleclues/Dropdown";
 import DatePickerWithValidation from "../organization/DatePicker";
+import CameraGestureModal from "./CameraGestureModal";
+import Image from "next/image";
+import { Button } from "../atoms/button";
+import { Upload } from "lucide-react";
+import Modal from "../organization/modal";
+import { useState } from "react";
 
 type Field = {
   key: string;
@@ -20,21 +26,61 @@ type Props = {
 
 export default function FormFieldTemplate({ field, onChange, state, form }: Props) {
   const { key, validation } = field;
+  const [openCamera, setOpenCamera] = useState<boolean>(false);
   const required = validation.required;
 
   switch (key) {
     case "photo_profile":
       return (
-        <div className="flex flex-col items-center gap-2">
-          <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
-            👤
+        <div className="flex flex-col gap-2 mt-4">
+          <label className="font-bold text-xs text-[#404040]">
+            Photo Profile
+            {required && <span className="text-red-500">*</span>}
+          </label>
+          <div className="w-24 h-24 rounded-full bg-gray-200 overflow-hidden flex items-center justify-center">
+            {form["photo_profile"] ? (
+              <Image
+                src={form["photo_profile"]}
+                className="w-full h-full object-cover"
+                alt="profile"
+              />
+            ) : (
+              <Image
+                src="/Avatar.png"
+                alt="profile"
+                width={144}
+                height={144}
+                className="text-gray-500 text-xl"
+              />
+            )}
           </div>
-          <button
+
+          <Button
+            variant="normal"
             type="button"
-            className="px-3 py-2 border border-gray-300 rounded-md text-sm bg-white hover:bg-gray-50"
+            size="md"
+            onClick={() => setOpenCamera(true)}
+            className="cursor-pointer border font-bold border-gray-300 rounded-md text-sm bg-white hover:bg-gray-50 flex items-center gap-2 w-36"
           >
-            Take a Picture
-          </button>
+            <span>
+              <Upload strokeWidth={3} size={16} className="font-bold" />
+            </span>{" "}
+            <span className="font-bold">Take a Picture</span>
+          </Button>
+          <input type="hidden" name="photo_profile" value={form["photo_profile"]} required />
+          {state?.errors?.["photo_profile"] && (
+            <p className="text-xs text-red-500 mt-1">{state.errors.photo_profile}</p>
+          )}
+
+          <Modal
+            open={openCamera}
+            showHeader={false}
+            title="Job Opening"
+            showFooter={false}
+            style={{ width: "675px" }}
+          >
+            <CameraGestureModal onClose={() => setOpenCamera(false)} />
+          </Modal>
         </div>
       );
 
