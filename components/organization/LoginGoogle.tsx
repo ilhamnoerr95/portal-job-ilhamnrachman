@@ -8,7 +8,7 @@ import { sign } from "crypto";
 export default function LoginGoogle() {
   return (
     <Button
-      onClick={() => signIn("google")}
+      onClick={() => signIn("google", { callbackUrl: "/users" })}
       variant="normal"
       type="button"
       className="w-full border border-gray-300 rounded-md py-2.5 flex items-center justify-center gap-2 text-gray-700 hover:bg-gray-50 transition"

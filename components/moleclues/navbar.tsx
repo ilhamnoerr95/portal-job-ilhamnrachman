@@ -10,11 +10,13 @@ type NavbarProps = {
   shadow?: boolean;
   image: string;
   roles?: roles;
+  name?: string;
+  email?: string;
 };
 
-const Navbar: React.FC<NavbarProps> = ({ text, shadow = false, image, roles }) => {
+const Navbar: React.FC<NavbarProps> = ({ text, shadow = false, image, roles, name, email }) => {
   const segments = useSelectedLayoutSegments(); // array of segments for current route
-  // contoh segments: ["users", "123"] untuk /users/123
+  // contoh segments: ["users", "123"] untuk /users/123/123
   const isUserDetail = segments[0] === "users" && segments.length >= 2 && !!segments[1];
 
   if (isUserDetail) return null;
@@ -28,8 +30,18 @@ const Navbar: React.FC<NavbarProps> = ({ text, shadow = false, image, roles }) =
       )}
     >
       <div className="text-base md:text-lg">{text}</div>
-      <div>
-        <Image src={image} width={28} height={38} alt="profile-picture" />
+      <div className="flex items-center gap-2">
+        <div>
+          <p className="text-xs font-semibold">{email}</p>
+          <p className="text-xs font-normal">{name}</p>
+        </div>
+        <Image
+          src={image}
+          width={28}
+          height={38}
+          alt="profile-picture"
+          className="rounded-full object-cover"
+        />
       </div>
     </nav>
   );

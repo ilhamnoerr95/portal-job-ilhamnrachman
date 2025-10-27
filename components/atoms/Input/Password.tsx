@@ -16,11 +16,12 @@ const Password: FC<PasswordProps> = (props) => {
       type={visible ? "text" : "password"}
       suffix={
         <Button
+          variant="normal"
           type="button"
           onClick={() => setVisible((v) => !v)}
           className="text-gray-500 hover:text-gray-700"
         >
-          {visible ? <EyeOff size={18} /> : <Eye size={18} />}
+          {visible ? <Eye size={18} /> : <EyeOff size={18} />}
         </Button>
       }
       {...props}
