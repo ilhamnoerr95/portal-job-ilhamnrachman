@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useActionState } from "react";
+import React, { useActionState, useEffect } from "react";
 import { Button } from "@/components/atoms/button";
 import Input from "@/components/atoms/Input/input";
 import LoginGoogle from "@/components/organization/LoginGoogle";
@@ -21,15 +21,18 @@ const FormLogin = () => {
     initialState
   );
 
-  if (state.success && state.data) {
-    if (mode === "withPassword") {
-      signIn("credentials", {
-        email,
-        password,
-        callbackUrl: "/admin",
-      });
+  // state login
+  useEffect(() => {
+    if (state.success && state.data) {
+      if (mode === "withPassword") {
+        signIn("credentials", {
+          email,
+          password,
+          callbackUrl: "/admin",
+        });
+      }
     }
-  }
+  }, [state, mode]);
 
   return (
     <form action={formAction} className="w-full space-y-3" id="post-login" noValidate>

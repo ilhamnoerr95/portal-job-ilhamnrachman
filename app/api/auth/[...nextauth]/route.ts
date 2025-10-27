@@ -11,7 +11,7 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        // Periksa ke database nanti ya. Ini sekadar contoh
+        //  Ini sekadar contoh
         if (credentials?.email === "admin@example.com" && credentials?.password === "supersecret") {
           return {
             id: "1",
@@ -26,6 +26,7 @@ export const authOptions = {
         return {
           id: "2",
           name: credentials?.email || "Unknown User",
+          email: "users@mock.com",
           roles: ["user"],
         };
       },

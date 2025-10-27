@@ -3,6 +3,7 @@ import React from "react";
 import Image from "next/image";
 import clsx from "clsx";
 import { useSelectedLayoutSegments } from "next/navigation";
+import { signOut } from "next-auth/react";
 type roles = "admin" | "users";
 
 type NavbarProps = {
@@ -18,7 +19,17 @@ const Navbar: React.FC<NavbarProps> = ({ text, shadow = false, image, roles, nam
   const segments = useSelectedLayoutSegments(); // array of segments for current route
   // contoh segments: ["users", "123"] untuk /users/123/123
   const isUserDetail = segments[0] === "users" && segments.length >= 2 && !!segments[1];
-
+  const [open, setOpen] = React.useState(false);
+  const menuRef = React.useRef<HTMLDivElement | null>(null);
+  React.useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
   if (isUserDetail) return null;
 
   return (
@@ -40,8 +51,20 @@ const Navbar: React.FC<NavbarProps> = ({ text, shadow = false, image, roles, nam
           width={28}
           height={38}
           alt="profile-picture"
-          className="rounded-full object-cover"
+          className="rounded-full object-cover cursor-pointer"
+          onClick={() => setOpen((prev) => !prev)}
         />
+        {open && (
+          <div className="absolute z-10 right-2 top-13 bg-white border border-gray-200 rounded-md shadow-lg w-36 p-2">
+            <button
+              type="button"
+              className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100 rounded cursor-pointer"
+              onClick={() => signOut({ callbackUrl: "/login" })}
+            >
+              Logout
+            </button>
+          </div>
+        )}
       </div>
     </nav>
   );

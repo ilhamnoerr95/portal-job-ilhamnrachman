@@ -60,7 +60,14 @@ const InputBase: FC<InputBaseProps> = ({
       />
 
       {suffix && (
-        <div className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">{suffix}</div>
+        <div
+          className={clsx(
+            "absolute right-3 -translate-y-1/2 text-gray-500",
+            error ? "top-[1.4rem]" : "top-1/2"
+          )}
+        >
+          {suffix}
+        </div>
       )}
 
       {error && <p className="text-xs text-red-500 mt-2">{error}</p>}

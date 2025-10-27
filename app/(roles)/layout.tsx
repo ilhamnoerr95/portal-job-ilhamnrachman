@@ -25,7 +25,8 @@ const Layout = async ({
       <Navbar
         name={session.user.name}
         email={session.user.email}
-        image={session?.user?.image}
+        roles={rolesType}
+        image={session?.user?.image ?? "/boy.webp"}
         text={rolesType === "admin" ? "Job List" : ""}
         shadow={false}
       />

@@ -29,6 +29,15 @@ export async function submitFormLogin(
 
   if (mode === "link") {
     redirect("/login/email-sent");
+  } else {
+    // Contoh validasi spesifik admin
+    if (email === "admin@example.com" && password !== "supersecret") {
+      return {
+        success: false,
+        errors: { password: "Invalid admin password" },
+        message: "Authentication failed",
+      };
+    }
   }
 
   console.log("📝 Submitted:", data);
