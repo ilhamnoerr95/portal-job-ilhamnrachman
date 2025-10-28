@@ -6,7 +6,7 @@
     "test:watch": "jest --watch",
     "test:unit": "jest --config jest.unit.config.ts --coverage",
     "server:dev": "next dev",
-    "build": "npm run test:unit && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },
