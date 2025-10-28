@@ -95,6 +95,7 @@ export default function WebcamCapture({
   };
 
   // Fungsi untuk start camera
+
   const startCamera = useCallback(() => {
     if (!webcamRef.current?.video || !canvasRef.current) return;
 
@@ -153,7 +154,7 @@ export default function WebcamCapture({
       active = false;
       if (cameraRef.current) cameraRef.current.stop();
     };
-  }, []);
+  }, [updatePose]);
 
   // Load script + start camera pertama kali
   useEffect(() => {

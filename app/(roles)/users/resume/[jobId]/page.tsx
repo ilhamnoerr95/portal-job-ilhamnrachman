@@ -63,8 +63,6 @@ async function submitFormResume(
   if (Object.keys(errors).length > 0) {
     return { success: false, errors, message: "Please fix the errors" };
   }
-
-  console.log("📝 Submitted:", trimmed);
   return { success: true, data: trimmed, message: "Job successfully published!" };
 }
 

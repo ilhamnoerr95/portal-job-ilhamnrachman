@@ -1,8 +1,6 @@
 "use client";
 
 import { FC } from "react";
-import { Flame } from "lucide-react";
-import clsx from "clsx";
 
 type Candidate = {
   id: string;

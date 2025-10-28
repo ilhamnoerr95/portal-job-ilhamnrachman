@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { ChevronDown, Search, X } from "lucide-react";
+import { ChevronDown, X } from "lucide-react";
 import Image from "next/image";
 
 interface Country {
@@ -163,7 +163,7 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
                 ))
               ) : (
                 <li className="py-4 text-center text-gray-500 text-sm">
-                  Keyword "<span className="font-bold">{searchTerm}</span>" tidak ditemukan
+                  Keyword <span className="font-bold">{searchTerm}</span> tidak ditemukan
                 </li>
               )}
             </ul>

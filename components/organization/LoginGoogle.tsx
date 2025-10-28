@@ -3,7 +3,6 @@
 import { signIn } from "next-auth/react";
 import { Button } from "../atoms/button";
 import Image from "next/image";
-import { sign } from "crypto";
 
 export default function LoginGoogle() {
   return (

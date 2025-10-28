@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Nunito_Sans } from "next/font/google";
+import { Nunito_Sans } from "next/font/google";
 import "./globals.css";
 import Provider from "@/components/sessionProvider";
 

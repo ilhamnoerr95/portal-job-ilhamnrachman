@@ -32,7 +32,7 @@ const FormLogin = () => {
         });
       }
     }
-  }, [state, mode]);
+  }, [state, mode, email, password]);
 
   return (
     <form action={formAction} className="w-full space-y-3" id="post-login" noValidate>

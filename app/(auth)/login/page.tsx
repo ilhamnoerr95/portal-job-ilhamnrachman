@@ -1,7 +1,7 @@
 import { Card } from "@/components/atoms/card";
 import Image from "next/image";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth";
 import dynamic from "next/dynamic";
 import { redirect } from "next/navigation";
 

@@ -2,8 +2,7 @@ import { Metadata } from "next";
 import React from "react";
 import Navbar from "@/components/moleclues/navbar";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { redirect } from "next/navigation";
+import { authOptions } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -23,8 +22,8 @@ const Layout = async ({
   return (
     <>
       <Navbar
-        name={session.user.name}
-        email={session.user.email}
+        name={session?.user?.name}
+        email={session?.user?.email}
         roles={rolesType}
         image={session?.user?.image ?? "/boy.webp"}
         text={rolesType === "admin" ? "Job List" : ""}
