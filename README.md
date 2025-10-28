@@ -1,5 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Job Portal Project
 
+## 📌 Project Overview
+
+Job Portal ini menyediakan platform bagi user untuk mencari dan melamar pekerjaan, serta untuk admin dalam mengelola daftar pekerjaan.  
+Beberapa fitur utama di dalam aplikasi ini:
+
+### 🔐 Authentication & Authorization
+
+- Login via **Credentials email & password** dengan role: `admin` & `user`.
+- Login via **Link** .
+- Login via **Google Provider** (otomatis sebagai role `user`)
+- Proteksi halaman berdasarkan role
+
+### 🧑‍💼 Admin Features
+
+- Manage Job List melalui halaman khusus admin
+- Tersedia Data Table untuk melihat user pelamar
+- Form dinamis untuk membuat & mengupdate job posting
+
+### 👨‍🎓 User Features
+
+- Melihat daftar job yang tersedia
+- Mengisi Form Apply Job (input data diri)
+- Gesture Photo Sensor untuk capture foto saat apply
+
+---
+
+## 🧰 Tech Stack Used
+
+- **Next.js (App Router, Latest Version)**
+- **TypeScript**
+- **Tailwind CSS**
+- **NextAuth**
+- **Zustand** (planned)
+- **React Query** (planned)
+- **React Testing Library & Jest**
+- **clsx**
+- **framer-motion**
+
+---
+
+## 🚀 How to Run Locally
+
+### 1️⃣ Clone Repository
+
+````bash
+git clone <repository-url>
+cd <nama-folder-project>
+```
 ## Getting Started
 
 First, run the development server:
@@ -12,13 +60,39 @@ yarn dev
 pnpm dev
 # or
 bun dev
+````
+
+Open [http://localhost:3000/login](http://localhost:3000/login) with your browser to see the result.
+
+## SETUP ENVIRONMENT
+
+```env
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+NEXTAUTH_SECRET=zebra_panggang_terenkripsi_123
+NEXTAUTH_URL=http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Untuk mendapatkan Google OAuth Credentials:
+Kunjungi [https://console.cloud.google.com/auth/clients](https://console.cloud.google.com/auth/clients)
+Untuk Aktifkan Google Sign-In API.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## PRODUCTION BUILD
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm run start
+```
+
+Build akan otomatis menjalankan `npm run test:unit` sebelum proses build.
+
+## Unit Testing
+
+Unit testing hanya fokus di component saja dengan treshold yang nilainya sudah di tetapkan. Cara menjalankannya:
+
+```bash
+npm run test:unit
+```
 
 ## Learn More
 
