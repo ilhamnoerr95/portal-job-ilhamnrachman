@@ -78,6 +78,7 @@ export default function WebcamCapture({
     setCapturedImage(null);
     setPoseSequence([]);
     setCountdown(null);
+    saveCapture(""); // Kirim ke parent
 
     // Restart camera
     if (cameraRef.current) {
@@ -95,7 +96,7 @@ export default function WebcamCapture({
   };
 
   // Fungsi untuk start camera
-
+  // eslint-disable-next-line
   const startCamera = useCallback(() => {
     if (!webcamRef.current?.video || !canvasRef.current) return;
 
@@ -154,7 +155,7 @@ export default function WebcamCapture({
       active = false;
       if (cameraRef.current) cameraRef.current.stop();
     };
-  }, [updatePose]);
+  }, []);
 
   // Load script + start camera pertama kali
   useEffect(() => {
@@ -214,14 +215,9 @@ export default function WebcamCapture({
               audio={false}
               screenshotFormat="image/jpeg"
               videoConstraints={videoConstraints}
-              className="w-full max-h-[400px] object-cover"
+              className="w-full h-auto object-cover"
             />
-            <canvas
-              ref={canvasRef}
-              width={640}
-              height={480}
-              className="absolute top-0 left-0 w-full h-full"
-            />
+            <canvas ref={canvasRef} width={640} className="absolute top-0 left-0 h-auto w-full" />
 
             {/* Status Pose */}
             <div className="absolute top-4 left-4 bg-black bg-opacity-70 text-white p-3 rounded-lg text-sm">
