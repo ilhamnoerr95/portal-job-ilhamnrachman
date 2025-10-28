@@ -2,7 +2,6 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { Calendar, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
-import clsx from "clsx";
 
 interface DatePickerProps {
   label?: string;
@@ -26,34 +25,27 @@ const DatePickerWithValidation: React.FC<DatePickerProps> = ({
   name,
 }) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(value);
-  const [currentMonth, setCurrentMonth] = useState<number>(
+  const [currentMonth, setCurrentMonth] = useState(
     value ? value.getMonth() : new Date().getMonth()
   );
-  const [currentYear, setCurrentYear] = useState<number>(
+  const [currentYear, setCurrentYear] = useState(
     value ? value.getFullYear() : new Date().getFullYear()
   );
+  const [viewMode, setViewMode] = useState<"day" | "month" | "year">("day");
   const [isOpen, setIsOpen] = useState(false);
+
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setIsOpen(false);
+        setViewMode("day");
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-  const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-
-  const handleDateSelect = (day: number) => {
-    const newDate = new Date(currentYear, currentMonth, day);
-    setSelectedDate(newDate);
-    onChange?.(newDate);
-    setIsOpen(false);
-  };
 
   const formattedDate = selectedDate
     ? selectedDate.toLocaleDateString("en-GB", {
@@ -69,7 +61,8 @@ const DatePickerWithValidation: React.FC<DatePickerProps> = ({
     if (newMonth < 0) {
       newMonth = 11;
       newYear--;
-    } else if (newMonth > 11) {
+    }
+    if (newMonth > 11) {
       newMonth = 0;
       newYear++;
     }
@@ -80,22 +73,33 @@ const DatePickerWithValidation: React.FC<DatePickerProps> = ({
   const changeYear = (offset: number) => {
     setCurrentYear((prev) => prev + offset);
   };
+
+  const selectDate = (day: number) => {
+    const d = new Date(currentYear, currentMonth, day);
+    setSelectedDate(d);
+    onChange?.(d);
+    setIsOpen(false);
+    setViewMode("day");
+  };
+
+  const decadeStart = Math.floor(currentYear / 10) * 10;
+  const years = Array.from({ length: 12 }).map((_, i) => decadeStart - 1 + i);
+
+  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+  const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+
   return (
-    <div className="w-full" ref={dropdownRef}>
+    <div className="w-full relative" ref={dropdownRef}>
       {label && (
         <label className="block text-xs text-gray-700 mb-1">
-          {label}
-          {required && <span className="text-red-500 ml-0.5">*</span>}
+          {label} {required && <span className="text-red-500 ml-0.5">*</span>}
         </label>
       )}
 
-      {/* Input field */}
       <div
-        onClick={() => setIsOpen(!isOpen)}
-        className={` relative flex items-center justify-between px-3 h-11 rounded-md cursor-pointer bg-white transition-all ${
-          errorMessage
-            ? "border-2 border-red-500 focus-within:ring-1 focus-within:ring-red-400"
-            : "border-2 border-[#E0E0E0] focus-within:ring-1 focus-within:ring-[#01959F]"
+        onClick={() => setIsOpen((prev) => !prev)}
+        className={`relative flex items-center justify-between px-3 h-11 rounded-md bg-white cursor-pointer border-2 transition-all ${
+          errorMessage ? "border-red-500" : "border-[#E0E0E0] focus-within:ring-[#01959F]"
         }`}
       >
         <Calendar size={18} className="text-gray-500" />
@@ -104,94 +108,155 @@ const DatePickerWithValidation: React.FC<DatePickerProps> = ({
           readOnly
           value={formattedDate}
           placeholder={placeholder}
-          className="w-full  pl-2 text-sm bg-transparent outline-none placeholder-gray-400 cursor-pointer"
+          className="w-full pl-2 text-sm bg-transparent outline-none"
         />
         <ChevronDown
           size={18}
-          className={clsx(
-            "text-gray-500 transition-transform duration-200",
-            isOpen && "rotate-180"
-          )}
+          className={`text-gray-500 transition-transform ${isOpen && "rotate-180"}`}
         />
       </div>
 
-      {/* Dropdown Calendar */}
       {isOpen && (
         <div className="absolute mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg p-3 z-20">
           {/* Header */}
           <div className="flex items-center justify-between mb-3">
-            <button
-              title="prev-year"
-              onClick={() => changeYear(-1)}
-              className="p-1 rounded hover:bg-gray-100 text-gray-500"
-            >
-              «
-            </button>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center">
               <button
-                title="prev-month"
-                onClick={() => changeMonth(-1)}
+                type="button"
+                onClick={() => {
+                  if (viewMode === "day") changeYear(-1);
+                  if (viewMode === "month") changeYear(-12);
+                  if (viewMode === "year") setCurrentYear((y) => y - 10);
+                }}
+                className="text-gray-500 hover:bg-gray-100 px-1"
+              >
+                «
+              </button>
+              <button
+                title="chevright"
+                type="button"
+                onClick={() => {
+                  if (viewMode === "day") changeMonth(1);
+                }}
                 className="p-1 rounded hover:bg-gray-100"
               >
                 <ChevronLeft size={16} />
               </button>
-              <span className="text-sm font-bold text-gray-700">
-                {months[currentMonth]} {currentYear}
-              </span>
+            </div>
+
+            <span
+              className="text-sm font-bold cursor-pointer"
+              onClick={() =>
+                setViewMode((prev) =>
+                  prev === "day" ? "month" : prev === "month" ? "year" : "year"
+                )
+              }
+            >
+              {viewMode === "day" && `${months[currentMonth]} ${currentYear}`}
+              {viewMode === "month" && currentYear}
+              {viewMode === "year" && `${decadeStart} - ${decadeStart + 9}`}
+            </span>
+            <div className="flex items-center">
               <button
-                title="next-month"
-                onClick={() => changeMonth(1)}
+                title="chevright"
+                type="button"
+                onClick={() => {
+                  if (viewMode === "day") changeMonth(1);
+                }}
                 className="p-1 rounded hover:bg-gray-100"
               >
                 <ChevronRight size={16} />
               </button>
+              <button
+                type="button"
+                onClick={() => {
+                  if (viewMode === "day") changeYear(1);
+                  if (viewMode === "month") changeYear(12);
+                  if (viewMode === "year") setCurrentYear((y) => y + 10);
+                }}
+                className="text-gray-500 hover:bg-gray-100 px-1"
+              >
+                »
+              </button>
             </div>
-            <button
-              title="next-year"
-              onClick={() => changeYear(1)}
-              className="p-1 rounded hover:bg-gray-100 text-gray-500"
-            >
-              »
-            </button>
           </div>
 
-          {/* Calendar Grid */}
-          <div className="grid grid-cols-7 text-center text-xs text-gray-500 mb-2">
-            {["S", "M", "T", "W", "T", "F", "S"].map((d, index) => (
-              <div key={index}>{d}</div>
-            ))}
-          </div>
+          {viewMode === "day" && (
+            <>
+              <div className="grid grid-cols-7 text-xs text-gray-500 mb-2 text-center">
+                {["S", "M", "T", "W", "T", "F", "S"].map((d) => (
+                  <div key={d}>{d}</div>
+                ))}
+              </div>
 
-          <div className="grid grid-cols-7 text-sm text-gray-700">
-            {Array.from({ length: firstDay }).map((_, idx) => (
-              <div key={`empty-${idx}`} />
-            ))}
+              <div className="grid grid-cols-7 text-sm text-center">
+                {Array.from({ length: firstDay }).map((_, i) => (
+                  <div key={i}></div>
+                ))}
+                {Array.from({ length: daysInMonth }).map((_, i) => {
+                  const day = i + 1;
+                  const selected =
+                    selectedDate &&
+                    day === selectedDate.getDate() &&
+                    currentMonth === selectedDate.getMonth() &&
+                    currentYear === selectedDate.getFullYear();
 
-            {Array.from({ length: daysInMonth }).map((_, dayIdx) => {
-              const day = dayIdx + 1;
-              const isSelected =
-                selectedDate &&
-                day === selectedDate.getDate() &&
-                currentMonth === selectedDate.getMonth() &&
-                currentYear === selectedDate.getFullYear();
+                  return (
+                    <div
+                      key={day}
+                      onClick={() => selectDate(day)}
+                      className={`py-1 cursor-pointer rounded-full mx-auto w-8 h-8 flex items-center justify-center hover:bg-gray-100 ${
+                        selected ? "border-2 border-orange-400 text-orange-500 font-semibold" : ""
+                      }`}
+                    >
+                      {day}
+                    </div>
+                  );
+                })}
+              </div>
+            </>
+          )}
 
-              return (
+          {viewMode === "month" && (
+            <div className="grid grid-cols-3 gap-2 text-center text-sm">
+              {months.map((m, idx) => (
                 <div
-                  key={day}
-                  onClick={() => handleDateSelect(day)}
-                  className={`py-1.5 cursor-pointer rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-1
-                hover:bg-gray-100 transition
-                ${isSelected ? "border-2 border-orange-400 text-orange-500 font-semibold" : ""}`}
+                  key={m}
+                  onClick={() => {
+                    setCurrentMonth(idx);
+                    setViewMode("day");
+                  }}
+                  className="py-2 rounded-lg cursor-pointer hover:bg-gray-100"
                 >
-                  {day}
+                  {m}
                 </div>
-              );
-            })}
-          </div>
+              ))}
+            </div>
+          )}
+
+          {viewMode === "year" && (
+            <div className="grid grid-cols-3 gap-2 text-center text-sm">
+              {years.map((yr) => (
+                <div
+                  key={yr}
+                  onClick={() => {
+                    setCurrentYear(yr);
+                    setViewMode("month");
+                  }}
+                  className={`py-2 rounded-lg cursor-pointer ${
+                    yr < decadeStart || yr > decadeStart + 9
+                      ? "text-gray-400 cursor-not-allowed"
+                      : "hover:bg-gray-100"
+                  }`}
+                >
+                  {yr}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
 
-      {/* Error Message */}
       {errorMessage && <p className="text-xs text-red-600 mt-2">{errorMessage}</p>}
     </div>
   );

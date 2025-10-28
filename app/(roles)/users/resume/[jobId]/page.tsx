@@ -65,7 +65,7 @@ async function submitFormResume(
   }
 
   console.log("📝 Submitted:", trimmed);
-  return { success: true, message: "Job successfully published!" };
+  return { success: true, data: trimmed, message: "Job successfully published!" };
 }
 
 export default function DynamicApplicationForm() {
@@ -144,6 +144,7 @@ export default function DynamicApplicationForm() {
         {/* Fixed Submit Button */}
         <div className="sticky bottom-0 bg-white border-t border-[#E0E0E0] py-4 px-14">
           <Button
+            disabled={isPending}
             form="post-resume"
             type="submit"
             className="w-full bg-[#01777F] text-white py-3 rounded-md hover:bg-[#01666E] transition cursor-pointer"

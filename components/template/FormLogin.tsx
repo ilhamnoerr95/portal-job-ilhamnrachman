@@ -28,7 +28,7 @@ const FormLogin = () => {
         signIn("credentials", {
           email,
           password,
-          callbackUrl: "/admin",
+          callbackUrl: "/admin/job-list",
         });
       }
     }

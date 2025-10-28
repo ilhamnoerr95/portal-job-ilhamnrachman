@@ -41,6 +41,8 @@ export default function FormFieldTemplate({ field, onChange, state, form }: Prop
             {form["photo_profile"] ? (
               <Image
                 src={form["photo_profile"]}
+                width={144}
+                height={144}
                 className="w-full h-full object-cover"
                 alt="profile"
               />
@@ -79,7 +81,10 @@ export default function FormFieldTemplate({ field, onChange, state, form }: Prop
             showFooter={false}
             style={{ width: "675px" }}
           >
-            <CameraGestureModal onClose={() => setOpenCamera(false)} />
+            <CameraGestureModal
+              onClose={() => setOpenCamera(false)}
+              saveCapture={(e: any) => onChange("photo_profile", e)}
+            />
           </Modal>
         </div>
       );
