@@ -12,7 +12,7 @@ export default async function LoginPage() {
 
   if (session) {
     if (session?.user.roles.includes("admin")) {
-      redirect("/admin");
+      redirect("/admin/job-list");
     } else {
       redirect("/users");
     }

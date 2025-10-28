@@ -11,8 +11,10 @@ import JobOpeningForm from "@/components/template/FormPostJob";
 import Toast, { StatusNotif } from "@/components/atoms/Notif";
 import EmptyState from "@/components/atoms/SpesialState";
 import { JobData } from "@/interfaces/job";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
+  const router = useRouter();
   const [open, setOpen] = React.useState(false);
   const [showNotif, setShowNotif] = React.useState<{
     show: boolean;
@@ -61,7 +63,11 @@ const Page = () => {
               <h3 className="text-lg font-bold text-gray-700 mb-2">{job.title}</h3>
               <p className="text-sm text-gray-600 mb-6">{job.salary_range.display_text}</p>
 
-              <Button size="sm" className="absolute rounded-lg bottom-9 right-6 cursor-pointer">
+              <Button
+                size="sm"
+                className="absolute rounded-lg bottom-9 right-6 cursor-pointer"
+                onClick={() => router.push(`/admin/manage-job/${job.id}`)}
+              >
                 Manage Job
               </Button>
             </Card>
