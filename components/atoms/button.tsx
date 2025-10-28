@@ -15,6 +15,8 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   size?: ButtonSize;
   fullWidth?: boolean;
+  isLoading?: boolean;
+  loadingName?: string;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -23,6 +25,9 @@ export const Button: React.FC<ButtonProps> = ({
   size = "md",
   fullWidth = false,
   className,
+  isLoading = false,
+  disabled,
+  loadingName = "Loading...",
   ...props
 }) => {
   const variants = {
@@ -41,17 +46,19 @@ export const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
+      disabled={isLoading || disabled}
       className={clsx(
         "transition whitespace-nowrap",
         variant === "normal" ? "font-normal" : "font-semibold ",
         variants[variant],
         sizes[size],
         fullWidth && "w-full",
+        isLoading && "cursor-not-allowed opacity-70",
         className
       )}
       {...props}
     >
-      {children}
+      {isLoading ? loadingName : children}
     </button>
   );
 };
