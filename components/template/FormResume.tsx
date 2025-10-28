@@ -194,7 +194,7 @@ export default function FormFieldTemplate({ field, onChange, state, form }: Prop
           </label>
           <Input
             name={key}
-            type="text"
+            type={key === "Email" ? "email" : "text"}
             value={form?.[key]}
             className="border border-gray-300 rounded-md px-3 py-2 text-sm"
             placeholder={`Enter your ${key.replace(/_/g, " ")}`}

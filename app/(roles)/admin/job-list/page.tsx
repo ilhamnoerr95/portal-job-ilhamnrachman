@@ -15,7 +15,8 @@ import { useRouter } from "next/navigation";
 
 const Page = () => {
   const router = useRouter();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState<boolean>(false);
+  const [searchQuery, setSearchQuery] = React.useState<string>("");
   const [showNotif, setShowNotif] = React.useState<{
     show: boolean;
     status: StatusNotif;
@@ -23,7 +24,11 @@ const Page = () => {
     show: false,
     status: "success",
   });
-
+  const filteredJobs = mockJobs?.data?.filter(
+    (job: JobData) =>
+      job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      job.status.toLowerCase().includes(searchQuery.toLowerCase())
+  );
   return (
     <div className="flex gap-6">
       {/* LEFT: Job List section */}
@@ -34,9 +39,10 @@ const Page = () => {
             suffix={<Image src="/u_search.png" alt="icon" height={20} width={20} />}
             placeholder="Search by job details"
             type="text"
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        {mockJobs?.data?.length === 0 ? (
+        {filteredJobs.length === 0 ? (
           <div className="flex flex-col items-center justify-center gap-4 mt-20">
             <EmptyState
               image={"/emptyState.webp"}
@@ -46,7 +52,7 @@ const Page = () => {
             />
           </div>
         ) : (
-          mockJobs?.data.map((job: JobData) => (
+          filteredJobs.map((job: JobData) => (
             <Card key={job.id} className="relative mb-4 h-[156px]" padding="p-6">
               <div className="flex items-center gap-2 mb-3">
                 <Tag variant={jobStatusStyle[job.status].variant} className="rounded-md">

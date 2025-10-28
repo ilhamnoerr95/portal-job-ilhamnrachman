@@ -37,7 +37,7 @@ export default function JobsPage() {
                     className={clsx(
                       "cursor-pointer w-full transition-all",
                       isActive
-                        ? "border-[#01777F] bg-[#F7FEFF]"
+                        ? "border-[#01777F] bg-[#F7FEFF] active:border-[#01777F]"
                         : "hover:border-[#01777F] hover:bg-[#F7FEFF]"
                     )}
                     onClick={() => setSelectedJob(job)}

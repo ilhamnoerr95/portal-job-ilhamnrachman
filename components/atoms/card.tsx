@@ -26,10 +26,11 @@ export const Card = <T extends React.ElementType = "div">({
   return (
     <Component
       className={clsx(
-        "bg-white rounded-2xl transition",
+        "rounded-2xl transition",
         padding,
         shadow && "shadow-md",
-        border && "border border-gray-200",
+        border ? "border border-gray-200" : "border",
+
         hoverable && "hover:shadow-lg hover:scale-[1.01]",
         className
       )}

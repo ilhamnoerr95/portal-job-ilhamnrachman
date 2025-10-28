@@ -184,8 +184,8 @@ const DatePickerWithValidation: React.FC<DatePickerProps> = ({
           {viewMode === "day" && (
             <>
               <div className="grid grid-cols-7 text-xs text-gray-500 mb-2 text-center">
-                {["S", "M", "T", "W", "T", "F", "S"].map((d) => (
-                  <div key={d}>{d}</div>
+                {["S", "M", "T", "W", "T", "F", "S"].map((d, index) => (
+                  <div key={index}>{d}</div>
                 ))}
               </div>
 
