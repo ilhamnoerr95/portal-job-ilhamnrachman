@@ -71,8 +71,8 @@ Open [http://localhost:3000/login](http://localhost:3000/login) with your browse
 ## SETUP ENVIRONMENT
 
 ```env
-GOOGLE_CLIENT_ID=
-GOOGLE_CLIENT_SECRET=
+GOOGLE_CLIENT_ID=idgoogleclienmu
+GOOGLE_CLIENT_SECRET=googlecliensecretmu
 NEXTAUTH_SECRET=zebra_panggang_terenkripsi_123
 NEXTAUTH_URL=http://localhost:3000
 ```
