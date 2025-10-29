@@ -49,6 +49,10 @@ git clone <repository-url>
 cd <nama-folder-project>
 ```
 ## Getting Started
+## dont forget to install first
+npm run install
+#or
+yarn install
 
 First, run the development server:
 
@@ -92,6 +96,40 @@ Unit testing hanya fokus di component saja dengan treshold yang nilainya sudah d
 
 ```bash
 npm run test:unit
+```
+
+## RUNNING ON DOCKERFILE
+
+dont forget to install docker on your pc
+
+```bash
+### build docker
+docker build -t bebas_mau_nama_apa -f deployment/Dockerfile .
+
+## docker run 
+docker run -p 3000:3000 \
+  -e NEXTAUTH_URL=http://localhost:3000 \
+  -e NEXTAUTH_SECRET=zebra_panggang_terenkripsi_123 \
+  -e GOOGLE_CLIENT_ID=nameofyourgoogleclientid \
+  -e GOOGLE_CLIENT_SECRET=yourgoogleclientsecret \
+ job-portal-ilhamnrachman
+
+### or  create container n start container
+
+docker container create \
+  --name bebeas_nama_container \
+  -p 3000:3000 \
+  -e NEXTAUTH_URL=http://localhost:3000 \
+  -e NEXTAUTH_SECRET=zebra_panggang_terenkripsi_123 \
+  -e GOOGLE_CLIENT_ID=nameofyourgoogleclientid \
+  -e GOOGLE_CLIENT_SECRET=yourgoogleclientsecret \
+  nama_image
+
+docker container start nama_container
+
+## kalo ada error stuck di npm install
+## hapus dulu .next sama node_modules 
+
 ```
 
 ## Learn More
