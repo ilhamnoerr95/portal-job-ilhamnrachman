@@ -21,7 +21,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ keys
 
     return response;
   } catch (error) {
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ error }, { status: 500 });
   }
 }
 
@@ -45,6 +45,6 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ key
 
     return response;
   } catch (error) {
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ error }, { status: 500 });
   }
 }
