@@ -20,6 +20,10 @@ export interface JobData {
   status: "active" | "inactive" | "draft";
   salary_range: SalaryRange;
   list_card: ListCard;
+  min_salary?: number;
+  max_salary?: number;
+  job_type_id?: number;
+  canidates_needed?: number;
 }
 
 export interface JobType {
