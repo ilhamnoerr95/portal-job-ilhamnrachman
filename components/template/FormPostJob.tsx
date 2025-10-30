@@ -57,8 +57,8 @@ async function submitJobForm(
   }
   const dataMutate = {
     title: processedData.jobName,
-    min_salary: processedData.minSalary || 0,
-    max_salary: processedData.maxSalary || 0,
+    min_salary: Number(processedData.minSalary) || 0,
+    max_salary: Number(processedData.maxSalary) || 0,
     canidates_needed: Number(processedData.candidates),
     job_type_id: Number(processedData.jobType),
     description: processedData.description,

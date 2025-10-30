@@ -56,7 +56,6 @@ const Page = () => {
       job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       job.status.toLowerCase().includes(searchQuery.toLowerCase())
   );
-  console.log(jobListData);
   return (
     <div className="flex gap-6">
       {/* LEFT: Job List section */}
