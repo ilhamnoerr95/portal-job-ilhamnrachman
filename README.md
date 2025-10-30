@@ -32,8 +32,8 @@ Beberapa fitur utama di dalam aplikasi ini:
 - **TypeScript**
 - **Tailwind CSS**
 - **NextAuth**
-- **Zustand** (planned)
-- **React Query** (planned)
+- **Zustand**
+- **React Query**
 - **React Testing Library & Jest**
 - **clsx**
 - **framer-motion**
@@ -75,6 +75,10 @@ GOOGLE_CLIENT_ID=idgoogleclienmu
 GOOGLE_CLIENT_SECRET=googlecliensecretmu
 NEXTAUTH_SECRET=zebra_panggang_terenkripsi_123
 NEXTAUTH_URL=http://localhost:3000
+NEXT_PUBLIC_ORIGIN=http://localhost:3000
+API_URL_INTERNAL=http://localhost:3000
+SUPABASE_URL=yoururlsupabase
+SUPABASE_SERVICE_ROLE_KEY=yourservicerolesupabase
 ```
 
 Untuk mendapatkan Google OAuth Credentials:
