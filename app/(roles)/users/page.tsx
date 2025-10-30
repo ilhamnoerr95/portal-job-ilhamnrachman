@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { jobs } from "@/mock/jobs";
+import { useState } from "react";
 import { Card } from "@/components/atoms/card";
 import clsx from "clsx";
 import Image from "next/image";
@@ -44,14 +43,11 @@ export default function JobsPage() {
     })
   );
 
-  const [selectedJob, setSelectedJob] = useState(jobListData?.[0]);
+  const [selectedJob, setSelectedJob] = useState(() => jobListData?.[0]);
   const filterJobType = (id: number) => {
     const type = jobType.filter((data) => data.id === id)?.[0];
     return type?.name;
   };
-  useEffect(() => {
-    setSelectedJob(jobListData?.[0]);
-  }, [jobListData]);
 
   return (
     <>
