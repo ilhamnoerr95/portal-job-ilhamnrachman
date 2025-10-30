@@ -4,16 +4,22 @@ import { Card } from "@/components/atoms/card";
 import { Input } from "@/components/atoms/Input/Index";
 import { Tag } from "@/components/atoms/tag";
 import Image from "next/image";
-import { mockJobs } from "@/mock/jobdata";
 import React from "react";
 import Modal from "@/components/organization/modal";
 import JobOpeningForm from "@/components/template/FormPostJob";
 import Toast, { StatusNotif } from "@/components/atoms/Notif";
 import EmptyState from "@/components/atoms/SpesialState";
-import { JobData } from "@/interfaces/job";
+import { JobData, JobType } from "@/interfaces/job";
 import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { groupOptions } from "@/hook/queryOption";
+import { useLoadingStore } from "@/store/loadingStore";
+import Loader from "@/components/atoms/Loader";
+import { converDate } from "@/utils/convertDate";
 
 const Page = () => {
+  const { isLoading: isLoaderModal } = useLoadingStore();
+
   const router = useRouter();
   const [open, setOpen] = React.useState<boolean>(false);
   const [searchQuery, setSearchQuery] = React.useState<string>("");
@@ -24,11 +30,33 @@ const Page = () => {
     show: false,
     status: "success",
   });
-  const filteredJobs = mockJobs?.data?.filter(
+  // jobType
+  const { data: jobTypeData, isLoading } = useQuery(
+    groupOptions<JobType[]>({
+      queryKey: ["/api/job_type"],
+      auth: false,
+      config: {
+        enabled: open,
+      },
+    })
+  );
+
+  const {
+    data: jobListData,
+    isLoading: LoadingJobList,
+    refetch: refetchJobList,
+  } = useQuery(
+    groupOptions<JobData[]>({
+      queryKey: ["/api/job_list"],
+      auth: false,
+    })
+  );
+  const filteredJobs = jobListData?.filter(
     (job: JobData) =>
       job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       job.status.toLowerCase().includes(searchQuery.toLowerCase())
   );
+  console.log(jobListData);
   return (
     <div className="flex gap-6">
       {/* LEFT: Job List section */}
@@ -42,7 +70,8 @@ const Page = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        {filteredJobs.length === 0 ? (
+        {LoadingJobList && <Loader />}
+        {filteredJobs?.length === 0 ? (
           <div className="flex flex-col items-center justify-center gap-4 mt-20">
             <EmptyState
               image={"/emptyState.webp"}
@@ -52,22 +81,28 @@ const Page = () => {
             />
           </div>
         ) : (
-          filteredJobs.map((job: JobData) => (
+          jobListData &&
+          filteredJobs?.map((job: any) => (
             <Card key={job.id} className="relative mb-4 h-[156px]" padding="p-6">
               <div className="flex items-center gap-2 mb-3">
-                <Tag variant={jobStatusStyle[job.status].variant} className="rounded-md">
-                  {jobStatusStyle[job.status].label}
+                <Tag
+                  variant={jobStatusStyle[job.status as keyof typeof jobStatusStyle].variant as any}
+                  className="rounded-md"
+                >
+                  {jobStatusStyle[job.status as keyof typeof jobStatusStyle].label}
                 </Tag>
 
-                {job.list_card.started_on_text && (
+                {job.created_at && (
                   <Tag variant="gray" className="rounded-sm font-normal text-sm">
-                    started on {job.list_card.started_on_text}
+                    started on {converDate(job.created_at)}
                   </Tag>
                 )}
               </div>
 
               <h3 className="text-lg font-bold text-gray-700 mb-2">{job.title}</h3>
-              <p className="text-sm text-gray-600 mb-6">{job.salary_range.display_text}</p>
+              <p className="text-sm text-gray-600 mb-6">
+                Rp{job.min_salary} - {job.max_salary}
+              </p>
 
               <Button
                 size="sm"
@@ -126,13 +161,21 @@ const Page = () => {
             <Button
               className="px-4 py-2 rounded-md bg-green-600 text-white hover:bg-green-700 cursor-pointer"
               form="post-job"
+              isLoading={isLoaderModal}
             >
               Publish job
             </Button>
           </>
         }
       >
-        <JobOpeningForm id="post-job" setNotif={setShowNotif} closeModal={setOpen} />
+        <JobOpeningForm
+          id="post-job"
+          setNotif={setShowNotif}
+          closeModal={setOpen}
+          jobTypeData={jobTypeData}
+          isLoadingTypeData={isLoading}
+          refetchJobList={() => refetchJobList()}
+        />
       </Modal>
       {/* toast notif*/}
       {showNotif.show && (

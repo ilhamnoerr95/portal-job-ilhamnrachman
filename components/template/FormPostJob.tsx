@@ -1,17 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { useActionState } from "react";
 import { Input } from "../atoms/Input/Index";
 import SelectBase from "../moleclues/Select";
 import ProfileSettingRow, { Option } from "../moleclues/Radio";
 import { StatusNotif } from "../atoms/Notif";
 import { JobFormState } from "@/interfaces/stateForm.type";
+import { useMutation, UseMutationResult } from "@tanstack/react-query";
+import { useHooksMutation } from "@/hook/useMutation";
+import { JobType } from "@/interfaces/job";
+import { useLoadingStore } from "@/store/loadingStore";
 
 const initialState: JobFormState = {};
 
 // Action untuk submit (client/server)
-async function submitJobForm(prevState: JobFormState, formData: FormData): Promise<JobFormState> {
+async function submitJobForm(
+  prevState: JobFormState,
+  formData: FormData,
+  createMutation: any
+): Promise<JobFormState> {
   const jobName = formData.get("jobName")?.toString().trim() || "";
   const jobType = formData.get("jobType")?.toString().trim() || "";
   const description = formData.get("description")?.toString().trim() || "";
@@ -47,8 +55,26 @@ async function submitJobForm(prevState: JobFormState, formData: FormData): Promi
   if (Object.keys(errors).length > 0) {
     return { success: false, errors, message: "Please fix the errors" };
   }
-
-  console.log("📝 Submitted:", processedData);
+  const dataMutate = {
+    title: processedData.jobName,
+    min_salary: processedData.minSalary || 0,
+    max_salary: processedData.maxSalary || 0,
+    canidates_needed: Number(processedData.candidates),
+    job_type_id: Number(processedData.jobType),
+    description: processedData.description,
+    phone_number: processedData.phone_number,
+    linkedin_link: processedData.linkedin_link,
+    gender: processedData.gender,
+    full_name: processedData.full_name,
+    email: processedData.email,
+    domicile: processedData.domicile,
+    date_birth: processedData.date_birth,
+    photo_profile: processedData.photo_profile,
+    status: "inactive",
+  };
+  createMutation.mutate({
+    ...dataMutate,
+  } as any);
 
   return { success: true, message: "Job successfully published!" };
 }
@@ -57,22 +83,35 @@ export default function JobOpeningForm({
   id = "jobOpeningForm",
   setNotif,
   closeModal,
+  jobTypeData,
+  isLoadingTypeData,
+  refetchJobList,
 }: {
   id?: string;
   setNotif: React.Dispatch<React.SetStateAction<{ show: boolean; status: StatusNotif }>>;
   closeModal: React.Dispatch<React.SetStateAction<boolean>>;
+  jobTypeData?: JobType[];
+  isLoadingTypeData: boolean;
+  refetchJobList: () => void;
 }) {
-  const [state, formAction, isPending] = useActionState(async (prev: any, formData: any) => {
-    const result = await submitJobForm(prev, formData);
+  const { setLoading } = useLoadingStore();
+  const createMutate = useMutation({
+    ...useHooksMutation({
+      mutationKey: ["/api/job_list"],
+      method: "POST",
+    }),
+    onSuccess: () => {
+      refetchJobList();
+      setNotif({ show: true, status: "success" });
+      closeModal(false);
+    },
+    onError: () => {
+      setNotif({ show: true, status: "error" });
+    },
+  });
 
-    if (!result.errors) {
-      if (result.success) {
-        setNotif({ show: true, status: "success" });
-        closeModal(false);
-      } else {
-        setNotif({ show: true, status: "error" });
-      }
-    }
+  const [state, formAction] = useActionState(async (prev: any, formData: any) => {
+    const result = await submitJobForm(prev, formData, createMutate);
 
     return result;
   }, initialState);
@@ -86,14 +125,14 @@ export default function JobOpeningForm({
   const [maxSalary, setMaxSalary] = useState("");
 
   const [settings, setSettings] = useState<Record<string, Option>>({
-    "Full name": "Mandatory",
-    "Photo Profile": "Mandatory",
-    Gender: "Mandatory",
-    Domicile: "Mandatory",
-    Email: "Mandatory",
-    "Phone number": "Mandatory",
-    "Linkedin link": "Mandatory",
-    "Date of birth": "Mandatory",
+    full_name: "Mandatory",
+    photo_profile: "Mandatory",
+    gender: "Mandatory",
+    domicile: "Mandatory",
+    email: "Mandatory",
+    phone_number: "Mandatory",
+    linkedin_link: "Mandatory",
+    date_birth: "Mandatory",
   });
 
   const handleChangeRadio = (key: string, value: Option) => {
@@ -101,11 +140,14 @@ export default function JobOpeningForm({
   };
 
   const disabledMap: Record<string, Option[]> = {
-    "Full name": ["Optional", "Off"],
-    "Photo Profile": ["Optional", "Off"],
-    Email: ["Optional", "Off"],
+    full_name: ["Optional", "Off"],
+    photo_profile: ["Optional", "Off"],
+    email: ["Optional", "Off"],
   };
 
+  React.useEffect(() => {
+    setLoading(createMutate.isPending);
+  }, [createMutate.isPending, setLoading]);
   return (
     <form action={formAction} id={id} noValidate className="space-y-6 w-full">
       {/* Job Name */}
@@ -128,10 +170,11 @@ export default function JobOpeningForm({
           Job Type<span className="text-red-600">*</span>
         </label>
         <SelectBase
-          options={["Full-time", "Contract", "Part-time", "Internship", "Freelance"]}
+          isLoadingOpt={isLoadingTypeData}
+          options={jobTypeData || []} // contoh: [{ id: 1, name: "Full Time" }, ...]
           placeholder="Select job type"
-          value={jobType}
-          onChange={(val) => setJobType(val)}
+          value={jobType} // misalnya 1
+          onChange={(val: any) => setJobType(val)} // val akan = id
           className="border-[#E0E0E0]"
           error={state.errors?.jobType}
         />

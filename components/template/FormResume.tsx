@@ -154,10 +154,14 @@ export default function FormFieldTemplate({ field, onChange, state, form }: Prop
           </label>
 
           <SelectBase
-            options={["Jakarta", "Bandung", "Surabaya"]}
+            options={[
+              { id: 1, name: "Jakarta" },
+              { id: 2, name: "Bandung" },
+              { id: 3, name: "Surabaya" },
+            ]}
             placeholder="Choose your domicile"
             value={form["domicile"]}
-            onChange={(val) => onChange("domicile", val)}
+            onChange={(val: any) => onChange("domicile", val)}
             className="border-[#E0E0E0]"
             error={state.errors?.domicile}
           />

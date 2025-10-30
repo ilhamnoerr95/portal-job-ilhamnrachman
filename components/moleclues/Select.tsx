@@ -4,15 +4,24 @@ import { ChevronDown, X, Search } from "lucide-react";
 import clsx from "clsx";
 import { Button } from "../atoms/button";
 
+type OptionType = {
+  id: string | number;
+  name: string;
+  [key: string]: any;
+};
+
 type SelectBaseProps = {
-  options: string[];
+  isLoadingOpt?: boolean;
+  options: OptionType[];
   placeholder?: string;
-  value?: string;
-  onChange?: (value: string) => void;
+  value?: string | number;
+  onChange?: (value: string | number) => void;
   className?: string;
   error?: string;
-  searchable?: boolean; // new prop
+  searchable?: boolean;
   searchPlaceholder?: string;
+  valueKey?: string; // default: 'id'
+  labelKey?: string; // default: 'name'
 };
 
 const SelectBase: FC<SelectBaseProps> = ({
@@ -24,14 +33,26 @@ const SelectBase: FC<SelectBaseProps> = ({
   error,
   searchable = false,
   searchPlaceholder = "Search...",
+  valueKey = "id",
+  labelKey = "name",
+  isLoadingOpt,
 }) => {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
 
+  // Filter options berdasarkan pencarian
   const filteredOptions = useMemo(() => {
     if (!searchable || !search.trim()) return options;
-    return options.filter((opt) => opt.toLowerCase().includes(search.toLowerCase()));
-  }, [options, search, searchable]);
+    return options.filter((opt) =>
+      String(opt[labelKey]).toLowerCase().includes(search.toLowerCase())
+    );
+  }, [options, search, searchable, labelKey]);
+
+  // Cari label dari value yang dipilih
+  const selectedLabel = useMemo(() => {
+    const selected = options.find((opt) => opt[valueKey] === value);
+    return selected ? selected[labelKey] : "";
+  }, [options, value, labelKey, valueKey]);
 
   return (
     <div className="relative w-full text-sm">
@@ -41,13 +62,15 @@ const SelectBase: FC<SelectBaseProps> = ({
         onClick={() => setOpen((prev) => !prev)}
         className={clsx(
           "w-full border-2 rounded-md px-4 py-3 flex justify-between items-center text-left bg-white",
-          open && "ring-1",
+          open && "ring-1 ring-[#01959F]",
           error ? "border-red-500" : "border-gray-200 text-gray-800",
           className
         )}
       >
-        <span className={clsx(!value && !error && "text-gray-400", "truncate flex-1 text-left")}>
-          {value || placeholder}
+        <span
+          className={clsx(!selectedLabel && !error && "text-gray-400", "truncate flex-1 text-left")}
+        >
+          {selectedLabel || placeholder}
         </span>
         <ChevronDown
           size={18}
@@ -81,21 +104,23 @@ const SelectBase: FC<SelectBaseProps> = ({
             </div>
           )}
 
-          {filteredOptions.length > 0 ? (
-            filteredOptions.map((opt) => (
+          {isLoadingOpt ? (
+            <div>loading..</div>
+          ) : filteredOptions.length > 0 ? (
+            filteredOptions.map((opt, index) => (
               <div
-                key={opt}
+                key={index}
                 onClick={() => {
-                  onChange?.(opt);
+                  onChange?.(opt[valueKey]);
                   setOpen(false);
                   setSearch("");
                 }}
                 className={clsx(
                   "px-4 py-2 cursor-pointer hover:bg-teal-50 font-semibold",
-                  value === opt && "bg-teal-100 text-teal-700"
+                  value === opt[valueKey] && "bg-teal-100 text-teal-700"
                 )}
               >
-                {opt}
+                {opt[labelKey]}
               </div>
             ))
           ) : (

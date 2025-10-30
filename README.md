@@ -57,13 +57,13 @@ yarn install
 First, run the development server:
 
 ```bash
-npm run dev
+npm run server:dev
 # or
-yarn dev
+yarn server:dev
 # or
-pnpm dev
+pnpm server:dev
 # or
-bun dev
+bun server:dev
 ````
 
 Open [http://localhost:3000/login](http://localhost:3000/login) with your browser to see the result.
@@ -106,7 +106,7 @@ dont forget to install docker on your pc
 ### build docker
 docker build -t bebas_mau_nama_apa -f deployment/Dockerfile .
 
-## docker run 
+## docker run
 docker run -p 3000:3000 \
   -e NEXTAUTH_URL=http://localhost:3000 \
   -e NEXTAUTH_SECRET=zebra_panggang_terenkripsi_123 \
@@ -128,7 +128,7 @@ docker container create \
 docker container start nama_container
 
 ## kalo ada error stuck di npm install
-## hapus dulu .next sama node_modules 
+## hapus dulu .next sama node_modules
 
 ```
 

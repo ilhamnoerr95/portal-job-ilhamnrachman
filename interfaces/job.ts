@@ -22,6 +22,12 @@ export interface JobData {
   list_card: ListCard;
 }
 
+export interface JobType {
+  id: string;
+  created_at: string;
+  name: string;
+}
+
 export interface JobResponse {
   data: JobData[];
 }

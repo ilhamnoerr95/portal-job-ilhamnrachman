@@ -16,11 +16,18 @@ const ProfileSettingRow = ({
   disabledOptions = [],
   onChange,
 }: ProfileSettingRowProps) => {
+  const formatLabel = (str: string) => {
+    return str
+      .split("_") // split by underscore
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // capitalize each word
+      .join(" "); // join with space
+  };
+
   const options: Option[] = ["Mandatory", "Optional", "Off"];
 
   return (
     <div className="flex justify-between items-center py-4 border-b border-gray-100">
-      <span className="text-gray-700">{label}</span>
+      <span className="text-gray-700">{formatLabel(label)}</span>
       <div className="flex gap-2">
         {options.map((option) => {
           const isDisabled = disabledOptions.includes(option);
