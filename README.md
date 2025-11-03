@@ -127,6 +127,10 @@ docker container create \
   -e NEXTAUTH_SECRET=zebra_panggang_terenkripsi_123 \
   -e GOOGLE_CLIENT_ID=nameofyourgoogleclientid \
   -e GOOGLE_CLIENT_SECRET=yourgoogleclientsecret \
+  -e NEXT_PUBLIC_ORIGIN=http://localhost:3000 \
+  -e API_URL_INTERNAL=http://localhost:3000 \
+  -e SUPABASE_URL=yoururlsupabase \
+  -e SUPABASE_SERVICE_ROLE_KEY=yourservicerolesupabase
   nama_image
 
 docker container start nama_container
